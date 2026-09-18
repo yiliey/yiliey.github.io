@@ -1,0 +1,15 @@
+type = "about"
+title = "About"
+
+[profile]
+research_interests = [
+  "LLM Application Development",
+  "Generative AI Models",
+  "Multimodal Generative Models"
+]
+
+[[sections]]
+id = "about"
+type = "markdown"
+source = "bio.md"
+title = "About"

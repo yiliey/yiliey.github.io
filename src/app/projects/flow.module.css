@@ -1,0 +1,204 @@
+/* The projects page draws on the site's field tokens (globals.css) instead of
+   its own hard-coded greys, so the theme toggle reaches it and the background
+   particle field shows through the page rather than being painted over. */
+.page {
+  --ink: var(--foreground);
+  --muted: var(--field-muted);
+  --soft: var(--field-soft);
+  --line: var(--field-line);
+  --surface: var(--field-surface);
+  --surface-soft: var(--field-surface-soft);
+  --beam: var(--modality-video);
+  --ease: cubic-bezier(.22,.61,.36,1);
+  min-height: 100vh; background: transparent; color: var(--ink);
+  padding: 2rem 4vw 1rem; font-family: var(--font-sans); isolation: isolate;
+}
+.page[data-embedded="true"] { background:transparent; min-height:0; padding:0 4vw; }
+
+.rail { position:fixed; z-index:4; left:clamp(14px,3.2vw,58px); top:var(--rail-y,50%); transform:translateY(-50%); display:grid; gap:clamp(16px,3vh,30px); width:96px; }
+.outputRail { left:auto; right:clamp(14px,3.2vw,58px); }
+.railHeading { text-align:center; color:var(--soft); font:500 .62rem var(--font-mono); letter-spacing:.2em; }
+
+/* The modality chips hover over the field rather than sitting on it. `i` is a
+   fixed anchor the flow curves measure against; `.chip` is the thing that
+   actually drifts, so the curves stay pinned while the icon floats. */
+.mode { display:grid; justify-items:center; gap:9px; transition:opacity 360ms ease; color:var(--ink); }
+.mode[data-active="false"] { opacity:.78; }
+.mode i { display:grid; place-items:center; width:54px; height:54px; }
+
+.chip { display:grid; place-items:center; width:100%; height:100%; border-radius:18px;
+  border:1px solid color-mix(in srgb, var(--tone) 68%, transparent);
+  background:color-mix(in srgb, var(--tone) 26%, var(--background));
+  color:color-mix(in srgb, var(--tone) 55%, white);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  color:var(--tone);
+  transition:box-shadow 500ms ease, background 500ms ease, border-color 500ms ease;
+  animation:chipFloat 6.5s ease-in-out infinite; }
+
+/* Staggered, so the rail breathes instead of bobbing in lockstep. */
+.mode:nth-child(2) .chip { animation-delay:-0.2s; }
+.mode:nth-child(3) .chip { animation-delay:-1.4s; }
+.mode:nth-child(4) .chip { animation-delay:-2.7s; }
+.mode:nth-child(5) .chip { animation-delay:-3.9s; }
+.mode:nth-child(6) .chip { animation-delay:-5.1s; }
+
+@keyframes chipFloat {
+  0%, 100% { transform:translateY(0);
+    box-shadow:0 7px 16px color-mix(in srgb, var(--ink) 9%, transparent), var(--surface-sheen); }
+  50% { transform:translateY(-7px);
+    box-shadow:0 17px 26px color-mix(in srgb, var(--ink) 7%, transparent), var(--surface-sheen); }
+}
+
+.mode[data-active="true"] .chip { border-color:var(--tone);
+  background:color-mix(in srgb, var(--tone) 42%, var(--background));
+  color:white; }
+/* On a night background a flat chip disappears; a ring of its own colour is
+   what keeps each modality legible against the field. */
+:global(.dark) .chip { box-shadow:0 0 0 1px color-mix(in srgb, var(--tone) 34%, transparent),
+  0 0 24px color-mix(in srgb, var(--tone) 30%, transparent); }
+:global(.dark) .mode[data-active="true"] .chip {
+  box-shadow:0 0 0 1px var(--tone), 0 0 40px color-mix(in srgb, var(--tone) 60%, transparent); }
+.outputMode[data-active="true"] .chip { box-shadow:0 0 30px color-mix(in srgb,var(--tone) 30%,transparent); }
+.mode b { font:600 .65rem var(--font-mono); letter-spacing:.09em; color:var(--field-muted); transition:color 360ms ease; }
+.mode[data-active="true"] b { color:var(--ink); }
+
+.intro { position:relative; z-index:2; width:min(860px,calc(100% - 258px)); margin:clamp(24px,5vh,56px) auto 60px; text-align:center; }
+.intro>p { font:500 .72rem var(--font-mono); letter-spacing:.16em; color:var(--muted); }
+.intro h1 { font-size:clamp(3rem,5.4vw,5.4rem); line-height:1.03; letter-spacing:-.045em; margin:20px 0; }
+.intro em { color:var(--beam); font-style:normal; }
+.intro small { color:var(--muted); font-size:1.08rem; }
+
+/* The headroom is not decoration: the rails are taller than the gap between the
+   header and the first card, so without it the rail can never reach the first
+   card's centre and the beams come in at a slant on the one card you land on.
+   The page title now sits inside that space rather than adding to it. */
+.projects { position:relative; z-index:2; width:min(920px,calc(100% - 268px)); margin:0 auto; padding-top:clamp(40px,7vh,72px); display:grid; gap:24px; }
+.heading { margin-bottom:clamp(28px,5vh,56px); }
+.sectionLabel { display:flex; justify-content:space-between; gap:1rem; align-items:center; margin-bottom:2px; color:var(--soft); font:500 .66rem var(--font-mono); letter-spacing:.08em; }
+.sectionLabel small { display:flex; gap:6px; align-items:center; font:inherit; letter-spacing:0; }
+
+/* Cards float on the field rather than covering it. */
+.card { position:relative; background:var(--surface); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border:1px solid var(--line); border-radius:18px; box-shadow:var(--surface-sheen), var(--elev-3);
+  transition:border-color .35s ease, box-shadow .35s ease; }
+/* The card the page is currently wired to is lit from its own beam colour, not
+   merely nudged a shade: at a glance you should never have to hunt for it. */
+.card[data-selected="true"] { border-color:color-mix(in srgb, var(--beam) 85%, transparent);
+  background:color-mix(in srgb, var(--beam) 9%, var(--surface));
+  box-shadow:var(--surface-sheen), var(--elev-5),
+    0 0 0 1px color-mix(in srgb, var(--beam) 40%, transparent),
+    0 0 46px color-mix(in srgb, var(--beam) 26%, transparent); }
+.card[data-selected="true"] .cardCopy h2 { color:color-mix(in srgb, var(--beam) 32%, var(--ink)); }
+.cardNode { position:absolute; z-index:3; top:50%; left:0; width:9px; height:9px; transform:translate(-50%,-50%); border:2px solid color-mix(in srgb, var(--beam) 26%, transparent); background:var(--background); border-radius:50%; transition:border-color .35s; }
+.card::after { content:""; position:absolute; top:50%; width:9px; height:9px; transform:translateY(-50%); border:2px solid color-mix(in srgb, var(--beam) 26%, transparent); background:var(--background); border-radius:50%; transition:border-color .35s; right:-5px; }
+.card::after { right:-5px; }
+.card[data-selected="true"] .cardNode { border-color:var(--beam); }
+.card[data-phase="receiving"] .cardNode { animation:portGlow 380ms ease-in-out both; }
+.card[data-phase="outgoing"]::after,.card[data-phase="ready"]::after { border-color:var(--beam); box-shadow:0 0 12px color-mix(in srgb, var(--beam) 32%, transparent); }
+.arrivalLight { position:absolute; pointer-events:none; inset:-1px; border-radius:inherit; opacity:0; border:1px solid color-mix(in srgb, var(--beam) 55%, transparent); background:linear-gradient(100deg, color-mix(in srgb, var(--beam) 11%, transparent), transparent 55%, color-mix(in srgb, var(--beam) 4%, transparent)); }
+.card[data-phase="receiving"] .arrivalLight { animation:receiveLight 380ms ease-out both; }
+@keyframes receiveLight { 0% { opacity:0; } 40% { opacity:1; box-shadow:0 0 26px color-mix(in srgb, var(--beam) 22%, transparent), inset 0 0 22px color-mix(in srgb, var(--beam) 6%, transparent); } 100% { opacity:0; } }
+@keyframes portGlow { 0% { box-shadow:0 0 0 0 transparent; } 80% { box-shadow:0 0 0 8px color-mix(in srgb, var(--beam) 12%, transparent); } 100% { box-shadow:0 0 0 12px transparent; } }
+
+.cardButton { width:100%; display:grid; grid-template-columns:24px minmax(0,1fr) 22px; gap:20px; text-align:left; padding:30px 32px 24px; cursor:pointer; color:inherit; background:none; border:0; border-radius:inherit; }
+.cardButton:focus-visible { outline:2px solid var(--beam); outline-offset:5px; }
+.index { color:var(--soft); font:500 .8rem var(--font-mono); padding-top:5px; }
+.cardCopy h2 { margin:0 0 9px; font:600 clamp(1.55rem,2.1vw,2rem)/1.2 var(--font-sans); letter-spacing:-.02em; }
+.cardCopy p { color:var(--neutral-600); font:400 1rem/1.6 var(--font-sans); margin:0 0 16px; }
+.cardCopy strong { display:block; font:600 .65rem var(--font-mono); color:var(--soft); letter-spacing:.12em; margin-bottom:5px; }
+.cardCopy p.contribution { font-size:1rem; color:var(--neutral-600); margin-bottom:14px; }
+.exploreIcon { color:var(--soft); transition:transform .35s var(--ease); }
+.cardButton:hover .exploreIcon { transform:translate(2px,-2px); }
+.tags,.detailTags { display:flex; flex-wrap:wrap; gap:8px; min-height:24px; }
+.tags { opacity:0; transform:translateY(4px); transition:opacity 360ms ease,transform 360ms var(--ease); }
+.tags[data-visible="true"] { opacity:1; transform:none; }
+.tags span,.detailTags span { color:var(--tone); background:color-mix(in srgb,var(--tone) 12%,transparent); padding:5px 8px; border-radius:6px; font:600 .62rem var(--font-mono); letter-spacing:.07em; }
+.footer { text-align:center; color:var(--soft); font-style:italic; padding:20px 0 38px; font-size:1rem; }
+
+.links { position:fixed; inset:0; z-index:1; width:100%; height:100%; pointer-events:none; overflow:hidden; }
+.link { opacity:1; transition:opacity 360ms ease; }
+.link[data-active="false"] { opacity:0; }
+.link path { fill:none; stroke:var(--tone); stroke-width:1.6; stroke-opacity:.56; stroke-linecap:round; }
+.link circle { fill:var(--tone); filter:drop-shadow(0 0 5px color-mix(in srgb, var(--tone) 60%, transparent)); }
+
+/* This dialog is portalled to <body>, so it inherits nothing from `.page` —
+   every token it uses has to be restated here. `--beam` was missing, which
+   left the bullet dots in "What I built" painted with an empty value, i.e.
+   invisible. */
+.overlay { --line:var(--field-line); --beam:var(--modality-video); --ease:cubic-bezier(.22,.61,.36,1); color:var(--foreground); font-family:var(--font-sans); position:fixed; inset:0; z-index:60; background:color-mix(in srgb, var(--background) 66%, transparent); backdrop-filter:blur(6px); display:grid; place-items:center; padding:24px; animation:veil .2s ease both; }
+.detail { width:min(1800px,100%); max-height:calc(100dvh - 48px); overflow:auto; background:var(--background); border:1px solid var(--line); border-radius:24px; box-shadow:var(--elev-6); animation:reveal 360ms var(--ease) both; }
+.detailHeader { position:sticky; top:0; z-index:2; background:color-mix(in srgb, var(--background) 95%, transparent); backdrop-filter:blur(8px); display:flex; justify-content:space-between; align-items:center; gap:20px; padding:20px 28px; border-bottom:1px solid var(--line); }
+.detailHeader span { font:500 .68rem var(--font-mono); color:var(--field-soft); letter-spacing:.12em; }
+.detailHeader h2 { font:600 clamp(1.65rem,2.5vw,2.4rem)/1.15 var(--font-sans); margin:9px 0 0; letter-spacing:-.025em; }
+.detailHeader button { border:1px solid var(--line); border-radius:50%; padding:10px; cursor:pointer; color:var(--field-muted); background:var(--field-surface-soft); }
+/* The old split gave the diagram 75% of the width and the prose 25%. That only
+   works while the prose is short: a wide, shallow figure ends up marooned in the
+   middle of a column as tall as the text beside it, and the text itself becomes
+   a 366px ribbon you scroll for 1400px. Closer to even, with the figure sized to
+   its own content rather than stretched to the row. */
+.detailBody { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(340px,1fr); align-items:start; }
+/* Sticky and top-aligned: the figure stays beside the passage that refers to it
+   instead of scrolling away, and no longer sits centred in a sea of its own
+   empty column. The divider moves to the prose side so it still runs full height. */
+.diagram { position:sticky; top:0; align-self:start; min-width:0; display:flex; flex-direction:column; padding:16px 12px; background:var(--field-surface-soft); }
+.diagram img { display:block; width:100%; height:auto; object-fit:contain; border-radius:8px; }
+.fullSize { align-self:flex-end; margin-top:12px; text-decoration:none; }
+.detailCopy { padding:28px 32px; border-left:1px solid var(--line); min-height:100%; }
+.detailCopy label { font:600 .68rem var(--font-mono); color:var(--field-soft); letter-spacing:.12em; }
+.detailCopy>p { color:var(--neutral-600); font:400 1rem/1.65 var(--font-sans); margin:9px 0 26px; }
+.timeline { border-top:1px solid var(--line); margin-top:26px; padding-top:20px; }
+.timeline p { display:flex; gap:14px; color:var(--field-muted); font:600 .8rem var(--font-mono); margin:10px 0 0; }
+
+@keyframes reveal { from { opacity:0; transform:translateY(14px) scale(.975); } to { opacity:1; transform:none; } }
+@keyframes veil { from { opacity:0; } to { opacity:1; } }
+
+/* The reference diagrams are light-background figures; keep them readable
+   without inverting them when the rest of the page goes dark. */
+:global(.dark) .diagram img { background:#f7f9fc; }
+
+@media(max-width:1050px) { .projects { width:calc(100% - 260px); } .cardButton { padding:24px; gap:12px; grid-template-columns:20px minmax(0,1fr) 18px; } .sectionLabel small { display:none; } .detailBody { grid-template-columns:1fr; } .diagram { min-height:0; position:static; border-bottom:1px solid var(--line); } .detailCopy { border-left:0; } }
+@media(max-width:700px) {
+  .page { padding:24px 16px 0; }
+  .projects { padding-top:24px; }
+  .rail { left:8px; width:58px; gap:20px; }
+  .outputRail { left:auto; right:8px; }
+  .railHeading { font-size:.5rem; }
+  .mode i { width:38px; height:38px; } .chip { border-radius:13px; }
+  .mode i svg { width:19px; }
+  .mode b { font-size:.44rem; letter-spacing:0; }
+  .intro { width:calc(100% - 100px); margin:36px auto 42px; }
+  .intro>p { font-size:.53rem; letter-spacing:.08em; }
+  .intro h1 { font-size:clamp(2.25rem,7.7vw,3.3rem); }
+  .intro small { font-size:.85rem; }
+  .projects { width:calc(100% - 140px); margin:0 auto; gap:18px; }
+  .card { border-radius:14px; }
+  .cardButton { display:block; padding:18px 12px; }
+  .index { display:block; margin-bottom:12px; }
+  .exploreIcon { position:absolute; top:24px; right:17px; width:18px; }
+  .cardCopy h2 { font-size:1.2rem; overflow-wrap:anywhere; }
+  .cardCopy p,.cardCopy p.contribution { font-size:.85rem; }
+  .sectionLabel { font-size:.53rem; }
+  .tags span { font-size:.5rem; }
+  .overlay { padding:12px; }
+  .detail { max-height:calc(100dvh - 24px); border-radius:18px; }
+  .detailHeader { padding:18px; }
+  .detailCopy { padding:22px; }
+  .diagram { padding:12px 6px; }
+  .footer { font-size:.85rem; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .mode,.card,.exploreIcon,.tags,.link,.chip { transition:none; }
+  .chip { animation:none; }
+  .overlay,.detail,.arrivalLight,.card[data-phase="receiving"]::before { animation:none; }
+}
+
+/* Project detail bullet list. */
+.details { margin:9px 0 26px; padding:0; list-style:none; display:grid; gap:10px; }
+.details li { position:relative; padding-left:16px; color:var(--neutral-600); font:400 1rem/1.65 var(--font-sans); }
+.details li::before { content:""; position:absolute; left:0; top:.62em; width:5px; height:5px; border-radius:50%; background:var(--beam); }
+
+/* A project with no diagram gives its copy the full width of the dialog. */
+.detailBody[data-solo="true"] { grid-template-columns:minmax(0,1fr); }
+.detailBody[data-solo="true"] .detailCopy { padding:32px clamp(28px,6vw,72px); }
+
+.repo { margin:4px 0 22px; text-decoration:none; }

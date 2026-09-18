@@ -1,0 +1,163 @@
+/*
+ * PRISM figure-inspired website primitives.
+ * Additive by design: existing pages are unchanged until they use prism-* classes.
+ */
+
+:root,
+.light {
+  --prism-ink: #0b1b4d;
+  --prism-body: #334155;
+  --prism-muted: #64748b;
+  --prism-paper: #fdfdfd;
+  --prism-paper-cool: #f5f7f9;
+  --prism-line: #aeb3cf;
+  --prism-blue: #315dac;
+  --prism-blue-soft: #daebf2;
+  --prism-green: #2f855a;
+  --prism-green-soft: #d9e7d7;
+  --prism-violet: #7146a6;
+  --prism-violet-soft: #e5ddfc;
+  --prism-amber: #be996d;
+  --prism-amber-soft: #fdf2d9;
+  --prism-coral: #c55345;
+
+  --prism-rule-width: 1px;
+  --prism-rule-strong-width: 1.5px;
+  --prism-radius-panel: 18px;
+  --prism-radius-card: 14px;
+  --prism-shadow-panel: 0 10px 28px rgba(11, 27, 77, 0.07);
+}
+
+.dark {
+  --prism-ink: #eef2ff;
+  --prism-body: #d8deea;
+  --prism-muted: #aeb8ca;
+  --prism-paper: #10172a;
+  --prism-paper-cool: #151e34;
+  --prism-line: #66718e;
+  --prism-blue-soft: #172b49;
+  --prism-green-soft: #172d29;
+  --prism-violet-soft: #28213f;
+  --prism-amber-soft: #342b1e;
+  --prism-shadow-panel: 0 12px 34px rgba(0, 0, 0, 0.22);
+}
+
+.prism-panel {
+  --prism-family: var(--prism-blue);
+  --prism-family-soft: var(--prism-blue-soft);
+  position: relative;
+  overflow: hidden;
+  border: var(--prism-rule-width) solid color-mix(in srgb, var(--prism-family) 44%, transparent);
+  border-radius: var(--prism-radius-panel);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--prism-family-soft) 52%, transparent), transparent 58%),
+    var(--prism-paper);
+  box-shadow: var(--prism-shadow-panel);
+}
+
+.prism-panel[data-family="green"] {
+  --prism-family: var(--prism-green);
+  --prism-family-soft: var(--prism-green-soft);
+}
+
+.prism-panel[data-family="violet"] {
+  --prism-family: var(--prism-violet);
+  --prism-family-soft: var(--prism-violet-soft);
+}
+
+.prism-panel[data-family="amber"] {
+  --prism-family: var(--prism-amber);
+  --prism-family-soft: var(--prism-amber-soft);
+}
+
+.prism-panel--grouped {
+  border-style: dashed;
+}
+
+.prism-card {
+  border: var(--prism-rule-width) solid color-mix(in srgb, var(--prism-line) 58%, transparent);
+  border-radius: var(--prism-radius-card);
+  background: color-mix(in srgb, var(--prism-paper) 96%, transparent);
+  box-shadow: 0 5px 18px rgba(11, 27, 77, 0.05);
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.prism-card:hover,
+.prism-card:focus-within {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--prism-blue) 48%, var(--prism-line));
+  box-shadow: 0 10px 26px rgba(11, 27, 77, 0.09);
+}
+
+.prism-section-title {
+  display: grid;
+  grid-template-columns: minmax(1.75rem, 1fr) auto minmax(1.75rem, 1fr);
+  align-items: center;
+  gap: 0.9rem;
+  color: var(--prism-ink);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.prism-section-title::before,
+.prism-section-title::after {
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--prism-ink) 58%, transparent));
+}
+
+.prism-section-title::after {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--prism-ink) 58%, transparent), transparent);
+}
+
+.prism-badge {
+  display: inline-grid;
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--prism-family, var(--prism-blue));
+  color: white;
+  font-family: var(--font-serif);
+  font-weight: 600;
+}
+
+.prism-divider {
+  height: 1px;
+  border: 0;
+  background: color-mix(in srgb, var(--prism-line) 46%, transparent);
+}
+
+.prism-signal-line {
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--prism-blue) 22%, transparent), var(--prism-blue));
+  transform-origin: left center;
+}
+
+.prism-metric {
+  border-left: 2px solid var(--prism-family, var(--prism-blue));
+  padding-left: 0.8rem;
+}
+
+.prism-metric > strong {
+  display: block;
+  color: var(--prism-ink);
+  font-family: var(--font-serif);
+  font-size: clamp(1.55rem, 3vw, 2.35rem);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prism-card {
+    transition: none;
+  }
+
+  .prism-card:hover,
+  .prism-card:focus-within {
+    transform: none;
+  }
+}
+

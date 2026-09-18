@@ -1,0 +1,13 @@
+type = "card"
+title = "Experience"
+description = "Industry positions"
+
+[[items]]
+title = "LLM Application Development Intern"
+subtitle = "Alibaba Cloud"
+date = "May 2026 – Aug 2026"
+
+[[items]]
+title = "Data Analytics Intern"
+subtitle = "X.D.Network Inc."
+date = "May 2025 – Aug 2025"
