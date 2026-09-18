@@ -1,7 +1,15 @@
 [[news]]
-date = "2025-11"
-content = "Our work has been accepted by a prestigious journal 🎉"
+date = "2026-08"
+content = "Completed internship at Alibaba Cloud, working on multimodal generative AI and video translation pipelines 🎉"
 
 [[news]]
-date = "2025-09"
-content = "Starting my PhD at the University of Example"
+date = "2026-08"
+content = "Starting MS in Computational Science and Engineering at Georgia Institute of Technology"
+
+[[news]]
+date = "2026-05"
+content = "Our paper **SAFEGEN** accepted to IEEE ICASSP 2026!"
+
+[[news]]
+date = "2026-05"
+content = "Graduated from University of Michigan with BS in Data Science"

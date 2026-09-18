@@ -22,7 +22,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const root = document.documentElement;
 
     const apply = () => {
-      const effective = resolveTheme(theme);
+      const effective = 'dark' as const; // night only
+      void theme;
       root.classList.remove('light', 'dark');
       root.classList.add(effective);
       root.setAttribute('data-theme', effective);
@@ -55,10 +56,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     };
   }, [theme, mounted]);
 
-  // Prevent flash of unstyled content
-  if (!mounted) {
-    return <div style={{ visibility: 'hidden' }}>{children}</div>;
-  }
-
+  // The initial theme is applied by the inline script in app/layout.tsx.
+  // Keep the page visible during hydration so a client-side error cannot hide
+  // the entire site, including the navigation.
   return <>{children}</>;
-} 
+}

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { CardPageConfig } from '@/types/page';
+import StreamingText from '@/components/ui/StreamingText';
 
 export default function CardPage({ config, embedded = false }: { config: CardPageConfig; embedded?: boolean }) {
     return (
@@ -11,11 +12,14 @@ export default function CardPage({ config, embedded = false }: { config: CardPag
             transition={{ duration: 0.6, delay: 0.4 }}
         >
             <div className={embedded ? "mb-4" : "mb-8"}>
-                <h1 className={`${embedded ? "text-2xl" : "text-4xl"} font-serif font-bold text-primary mb-4`}>{config.title}</h1>
+                <StreamingText as="h1" text={config.title} className={`${embedded ? "text-2xl" : "text-4xl"} font-serif font-bold text-primary mb-4`} />
                 {config.description && (
-                    <p className={`${embedded ? "text-base" : "text-lg"} text-neutral-600 dark:text-neutral-500 max-w-2xl`}>
-                        {config.description}
-                    </p>
+                    <StreamingText
+                        as="span"
+                        text={config.description}
+                        step={34}
+                        className={`${embedded ? "text-base" : "text-lg"} text-neutral-600 dark:text-neutral-600 max-w-2xl block`}
+                    />
                 )}
             </div>
 
@@ -26,7 +30,7 @@ export default function CardPage({ config, embedded = false }: { config: CardPag
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.4, delay: 0.1 * index }}
-                        className={`bg-white dark:bg-neutral-900 ${embedded ? "p-4" : "p-6"} rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-800 hover:shadow-lg transition-all duration-200 hover:scale-[1.01]`}
+                        data-attend="" className={`surface ${embedded ? "p-4" : "p-6"} rounded-xl border`}
                     >
                         <div className="flex justify-between items-start mb-2">
                             <h3 className={`${embedded ? "text-lg" : "text-xl"} font-semibold text-primary`}>{item.title}</h3>
@@ -37,10 +41,10 @@ export default function CardPage({ config, embedded = false }: { config: CardPag
                             )}
                         </div>
                         {item.subtitle && (
-                            <p className={`${embedded ? "text-sm" : "text-base"} text-accent font-medium mb-3`}>{item.subtitle}</p>
+                            <p className={`${embedded ? "text-sm" : "text-base"} text-accent/70 font-medium mb-3`}>{item.subtitle}</p>
                         )}
                         {item.content && (
-                            <p className={`${embedded ? "text-sm" : "text-base"} text-neutral-600 dark:text-neutral-500 leading-relaxed`}>
+                            <p className={`${embedded ? "text-sm" : "text-base"} text-neutral-600 dark:text-neutral-600 leading-relaxed`}>
                                 {item.content}
                             </p>
                         )}

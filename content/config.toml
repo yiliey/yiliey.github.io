@@ -1,35 +1,20 @@
 [site]
-title = "Jiale Liu"
-description = "PhD student at the University of Example."
+title = "Yilei Yuan"
 favicon = "/favicon.svg"
-last_updated = "November 18, 2025"
+last_updated = "September 13, 2026"
 
 [author]
-name = "Jiale Liu"
-title = "PhD Student"
-institution = "University of Example"
-avatar = "/bio.jpg"
+name = "Yilei Yuan"
+avatar = "/c0f2d4c6b5b5f3c8755a8906ec6b9df1.jpg"
 
 [social]
-# Contact information (leave blank or delete to hide)
-
-email = "john.doe@example.com"
-location = "City, Country"
-location_url = "https://maps.google.com"
-location_details = [
-  "Room 123, Science Building,",
-  "University Avenue, City, Country"
-]
-google_scholar = "https://scholar.google.com"
-orcid = "https://orcid.org"
-github = "https://github.com"
-linkedin = "https://linkedin.com"
+email = "yyuan419@gatech.edu"
+location = "Atlanta, GA"
+github = "https://github.com/yiliey/"
+linkedin = "https://www.linkedin.com/in/yileiyuan/"
 
 [features]
-# Show a like button on the about page
 enable_likes = true
-
-# Display all subpages on a single page
 enable_one_page_mode = false
 
 [[navigation]]
@@ -45,25 +30,25 @@ target = "publications"
 href = "/publications"
 
 [[navigation]]
-title = "Teaching"
+title = "Projects"
+type = "link"
+target = "projects"
+href = "/projects"
+
+[[navigation]]
+title = "Experience"
 type = "page"
-target = "teaching"
-href = "/teaching"
+target = "experience"
+href = "/experience"
+
+[[navigation]]
+title = "Education"
+type = "page"
+target = "education"
+href = "/education"
 
 [[navigation]]
 title = "Awards"
 type = "page"
 target = "awards"
 href = "/awards"
-
-[[navigation]]
-title = "Services"
-type = "page"
-target = "services"
-href = "/services"
-
-[[navigation]]
-title = "CV"
-type = "page"
-target = "cv"
-href = "/cv"

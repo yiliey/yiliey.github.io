@@ -1,0 +1,21 @@
+type = "card"
+title = "Education"
+description = "Degrees and institutions."
+
+[[items]]
+title = "Georgia Institute of Technology"
+subtitle = "M.S. in Computational Science and Engineering"
+date = "Aug 2026 – Dec 2027 (Expected)"
+content = "Atlanta, GA, USA"
+
+[[items]]
+title = "University of Michigan"
+subtitle = "B.S. in Data Science"
+date = "Aug 2024 – May 2026"
+content = "Ann Arbor, MI, USA"
+
+[[items]]
+title = "Shanghai Jiao Tong University"
+subtitle = "B.S. in Mechanical Engineering, Joint Institute"
+date = "Aug 2022 – Aug 2026"
+content = "Shanghai, China"

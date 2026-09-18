@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../styles/prism-figure-theme.css";
 
 /* Explicitly set dark mode to use class strategy */
 @variant dark (&:where(.dark, .dark *));
@@ -112,13 +113,14 @@
   --line-height-relaxed: 1.625;
   --line-height-loose: 2;
   
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  /* Shadows — layered, and defined per theme further down. A single flat
+     rgba blur is what makes a card look printed rather than lifted. */
+  --shadow-sm: var(--elev-1);
+  --shadow: var(--elev-2);
+  --shadow-md: var(--elev-3);
+  --shadow-lg: var(--elev-4);
+  --shadow-xl: var(--elev-5);
+  --shadow-2xl: var(--elev-6);
   --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
   --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   
@@ -130,7 +132,9 @@
 
 /* Dark mode styles */
 .dark {
-  --background: #0f172a;
+  /* Blue-violet rather than plain navy: deep lavender, not magenta. Green is
+     kept level with red so the ground stays on the blue side of purple. */
+  --background: #171935;
   --foreground: #f8fafc;
   
   /* Adjust colors for dark mode */
@@ -142,21 +146,21 @@
   --accent-dark: #d4a562;
   
   /* Dark mode glass effect */
-  --glass-bg: rgba(15, 23, 42, 0.8);
+  --glass-bg: rgba(25, 28, 56, 0.8);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-shadow: rgba(0, 0, 0, 0.5);
   
-  /* Neutral colors for dark mode - properly inverted */
-  --neutral-50: #0f172a;
-  --neutral-100: #1e293b;
-  --neutral-200: #334155;
-  --neutral-300: #475569;
-  --neutral-400: #64748b;
-  --neutral-500: #94a3b8;
-  --neutral-600: #cbd5e1;
-  --neutral-700: #e2e8f0;
-  --neutral-800: #1e293b;
-  --neutral-900: #0f172a;
+  /* Neutral colors for dark mode - properly inverted, tinted toward violet */
+  --neutral-50: #171935;
+  --neutral-100: #222545;
+  --neutral-200: #343963;
+  --neutral-300: #484e7b;
+  --neutral-400: #6c729c;
+  --neutral-500: #9aa1c2;
+  --neutral-600: #ccd1e6;
+  --neutral-700: #e5e8f5;
+  --neutral-800: #222545;
+  --neutral-900: #171935;
 }
 
 
@@ -238,4 +242,372 @@ body {
   background-color: #1e293b;
   /* Soften card borders in dark mode only */
   border-color: rgba(148, 163, 184, 0.24);
+}
+
+/* ---------------------------------------------------------------------------
+ * The particle field
+ *
+ * One vocabulary shared by the page background, the noise that covers each
+ * logo, and the modality curves on the projects page. These tokens mirror the
+ * palette in src/lib/particleField.ts — change them together.
+ * ------------------------------------------------------------------------ */
+
+:root,
+.light {
+  --modality-video: #4a83e8;
+  --modality-audio: #9569ef;
+  --modality-image: #52aa80;
+  --modality-text: #cb9437;
+  --modality-docs: #8093ba;
+
+  /* Surfaces that sit over the field rather than hiding it. */
+  --field-surface: rgba(255, 255, 255, 0.82);
+  --field-surface-soft: rgba(247, 249, 252, 0.72);
+  --field-line: rgba(30, 48, 90, 0.12);
+  --field-muted: #67758e;
+  --field-soft: #8390a6;
+}
+
+.dark {
+  --modality-video: #6f9df0;
+  --modality-audio: #9c8cf0;
+  --modality-image: #68c096;
+  --modality-text: #dcaa55;
+  --modality-docs: #9aacd0;
+
+  --field-surface: rgba(35, 38, 72, 0.78);
+  --field-surface-soft: rgba(26, 29, 58, 0.62);
+  --field-line: rgba(158, 167, 222, 0.22);
+  --field-muted: #a2a8ca;
+  --field-soft: #868db0;
+}
+
+/* ---------------------------------------------------------------------------
+ * Attention
+ *
+ * AttentionField writes `--attn` (this card's softmax weight), `--mx`/`--my`
+ * (the cursor inside it) and `--focus` on the document. Everything below is
+ * driven by those three numbers — nothing here is a :hover rule, so the
+ * response is continuous across the whole page rather than binary per card.
+ * ------------------------------------------------------------------------ */
+
+[data-attend] {
+  --attn: 0;
+  position: relative;
+  isolation: isolate;
+  transform: translateY(calc(var(--attn, 0) * -3px));
+  /* Cards the cursor is not attending to step back a little. */
+  opacity: calc(1 - 0.1 * var(--focus, 0) * (1 - var(--attn, 0)));
+}
+
+/* The spotlight: a soft pool of the accent colour under the cursor, scaled by
+   how much attention this card is receiving. */
+[data-attend]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    320px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--accent) 20%, transparent),
+    transparent 68%
+  );
+  opacity: calc(var(--attn, 0) * var(--attn, 0));
+}
+
+/* ---------------------------------------------------------------------------
+ * Token streaming
+ *
+ * Headings arrive the way a model emits them. `--i` is the token index, so the
+ * stagger is pure CSS: one animation, one per-token delay.
+ * ------------------------------------------------------------------------ */
+
+[data-token] {
+  display: inline-block;
+  white-space: pre;
+}
+
+[data-stream='streaming'] [data-token] {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateY(0.14em);
+  animation: token-in 0.44s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  animation-delay: calc(var(--i) * var(--step, 42ms));
+}
+
+@keyframes token-in {
+  to { opacity: 1; filter: none; transform: none; }
+}
+
+[data-caret] {
+  display: inline-block;
+  width: 0.06em;
+  height: 0.82em;
+  margin-left: 0.08em;
+  vertical-align: baseline;
+  background: var(--accent);
+  opacity: 0;
+}
+
+[data-stream='streaming'] [data-caret] {
+  opacity: 1;
+  animation: caret-blink 0.9s steps(1, end) infinite;
+}
+
+@keyframes caret-blink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-attend] { transform: none; opacity: 1; }
+  [data-attend]::before { display: none; }
+  [data-stream] [data-token] { opacity: 1; filter: none; transform: none; animation: none; }
+  [data-caret] { display: none; }
+}
+
+/* ---------------------------------------------------------------------------
+ * Depth: elevation, surfaces, atmosphere
+ *
+ * The page sits in front of the particle field rather than on top of an opaque
+ * sheet. Surfaces are translucent and blurred so the field reads through them,
+ * shadows are layered rather than a single flat blur, and a hairline highlight
+ * along the top edge gives each card a lit edge instead of a drawn border.
+ * ------------------------------------------------------------------------ */
+
+:root,
+.light {
+  --elev-1: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --elev-2: 0 1px 2px rgba(15, 23, 42, 0.04), 0 2px 6px rgba(15, 23, 42, 0.045);
+  --elev-3: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 10px rgba(15, 23, 42, 0.045), 0 10px 22px rgba(15, 23, 42, 0.035);
+  --elev-4: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 18px rgba(15, 23, 42, 0.06), 0 20px 40px rgba(15, 23, 42, 0.05);
+  --elev-5: 0 2px 4px rgba(15, 23, 42, 0.05), 0 12px 28px rgba(15, 23, 42, 0.07), 0 32px 64px rgba(15, 23, 42, 0.06);
+  --elev-6: 0 4px 8px rgba(15, 23, 42, 0.06), 0 20px 44px rgba(15, 23, 42, 0.09), 0 48px 96px rgba(15, 23, 42, 0.08);
+
+  --surface-bg: rgba(255, 255, 255, 0.82);
+  --surface-border: rgba(15, 23, 42, 0.07);
+  --surface-sheen: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --field-vignette: rgba(15, 23, 42, 0.05);
+  --nebula-strength: 0.7;
+}
+
+.dark {
+  --elev-1: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --elev-2: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 6px rgba(0, 0, 0, 0.26);
+  --elev-3: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 10px rgba(0, 0, 0, 0.3), 0 10px 22px rgba(0, 0, 0, 0.26);
+  --elev-4: 0 1px 2px rgba(0, 0, 0, 0.32), 0 8px 18px rgba(0, 0, 0, 0.34), 0 20px 40px rgba(0, 0, 0, 0.3);
+  --elev-5: 0 2px 4px rgba(0, 0, 0, 0.34), 0 12px 28px rgba(0, 0, 0, 0.38), 0 32px 64px rgba(0, 0, 0, 0.34);
+  --elev-6: 0 4px 8px rgba(0, 0, 0, 0.36), 0 20px 44px rgba(0, 0, 0, 0.44), 0 48px 96px rgba(0, 0, 0, 0.4);
+
+  --surface-bg: rgba(33, 36, 68, 0.74);
+  --surface-border: rgba(158, 167, 222, 0.17);
+  --surface-sheen: inset 0 1px 0 rgba(255, 255, 255, 0.055);
+  --field-vignette: rgba(9, 11, 32, 0.55);
+  --nebula-strength: 0.8;
+}
+
+/* A card: glass over the field, lit along its top edge. */
+.surface {
+  background: var(--surface-bg);
+  backdrop-filter: blur(16px) saturate(1.25);
+  -webkit-backdrop-filter: blur(16px) saturate(1.25);
+  border-color: var(--surface-border);
+  box-shadow: var(--surface-sheen), var(--elev-3);
+  transition: box-shadow 320ms cubic-bezier(0.22, 0.61, 0.36, 1),
+              border-color 320ms ease,
+              transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.surface:hover {
+  box-shadow: var(--surface-sheen), var(--elev-5);
+  border-color: color-mix(in srgb, var(--accent) 26%, var(--surface-border));
+}
+
+/* Aurora: three blurred colour fields, each on its own slow rotation and
+   scale. One transform on one layer only slides the whole haze around — it is
+   the layers drifting *against each other* that makes the colour actually
+   change over time instead of merely moving. */
+.field-nebula,
+.field-nebula::before,
+.field-nebula::after {
+  position: fixed;
+  inset: -30%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.field-nebula {
+  z-index: -11;
+  opacity: var(--nebula-strength);
+  background: radial-gradient(38% 44% at 24% 26%,
+    color-mix(in srgb, var(--modality-audio) 17%, transparent), transparent 70%);
+  animation: aurora-a 96s ease-in-out infinite alternate;
+}
+
+.field-nebula::before,
+.field-nebula::after {
+  content: '';
+  inset: -12%;
+}
+
+.field-nebula::before {
+  background: radial-gradient(34% 40% at 78% 32%,
+    color-mix(in srgb, var(--modality-video) 20%, transparent), transparent 68%),
+    radial-gradient(30% 30% at 54% 8%,
+    color-mix(in srgb, var(--modality-audio) 12%, transparent), transparent 70%);
+  animation: aurora-b 124s ease-in-out infinite alternate;
+}
+
+.field-nebula::after {
+  background:
+    radial-gradient(42% 46% at 62% 80%,
+      color-mix(in srgb, var(--modality-image) 18%, transparent), transparent 72%),
+    radial-gradient(28% 34% at 30% 86%,
+      color-mix(in srgb, var(--modality-text) 15%, transparent), transparent 68%);
+  animation: aurora-c 152s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-a {
+  0% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+  100% { transform: translate3d(6%, -4%, 0) scale(1.18) rotate(22deg); }
+}
+
+@keyframes aurora-b {
+  0% { transform: translate3d(0, 0, 0) scale(1.1) rotate(0deg); }
+  100% { transform: translate3d(-7%, 5%, 0) scale(0.92) rotate(-28deg); }
+}
+
+@keyframes aurora-c {
+  0% { transform: translate3d(0, 0, 0) scale(0.95) rotate(0deg); }
+  100% { transform: translate3d(4%, 6%, 0) scale(1.22) rotate(16deg); }
+}
+
+/* Falls off toward the edges, so the field reads as a dome rather than a wall.
+   Sits above the stars but behind every bit of content. */
+.field-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: -9;
+  pointer-events: none;
+  background: radial-gradient(ellipse 118% 88% at 50% 38%, transparent 40%, var(--field-vignette) 100%);
+}
+
+/* A single film of grain over the whole page — including dialogs. It is the
+   site's own metaphor applied to the frame itself, and it is what keeps large
+   flat areas and gradients from banding. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.dark body::after {
+  opacity: 0.05;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field-nebula,
+  .field-nebula::before,
+  .field-nebula::after { animation: none; }
+  .surface { transition: none; }
+}
+
+/* The prompt that appears as you push past the end of a page. */
+.warp-hint {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 160ms ease, visibility 160ms;
+  position: fixed;
+  left: 50%;
+  bottom: 30px;
+  z-index: 60;
+  transform: translateX(-50%);
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  padding: 10px 18px 12px;
+  border-radius: 999px;
+  pointer-events: none;
+  background: var(--field-surface);
+  border: 1px solid var(--field-line);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--elev-4);
+  color: var(--foreground);
+  /* Longhands, not the `font` shorthand: lightningcss cannot validate a
+     shorthand that contains var(), and drops the rule that holds it. */
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.warp-hint[data-on='true'] {
+  opacity: 1;
+  visibility: visible;
+}
+
+.warp-hint i {
+  display: block;
+  width: 130px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  transform-origin: left center;
+  transition: transform 80ms linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .warp-hint { display: none; }
+}
+
+
+/* The incoming page, carried in behind the meteors. */
+.page-arrive {
+  animation: page-arrive 820ms cubic-bezier(0.16, 0.84, 0.34, 1) both;
+  will-change: opacity, transform;
+}
+
+@keyframes page-arrive {
+  /* Unfolding from a long way off rather than sliding up from the fold. */
+  from { opacity: 0; transform: scale(0.74) translate3d(0, 18px, 0); }
+  55% { opacity: 1; }
+  to { opacity: 1; transform: none; }
+}
+
+/* The page being left behind rushes past the viewer as the field winds up.
+   Applied only while warping: an unconditional transform would turn `main`
+   into a containing block and break the fixed rails on the projects page. */
+/* Declared here even though only JavaScript ever writes them. Without a
+   declaration in the stylesheet the optimiser treats `var(--warp-scale, 1)` as
+   a variable that cannot exist and folds it to the fallback, so the transform
+   computed to a permanent scale(1) no matter what was set on the element. */
+:root {
+  --warp-scale: 1;
+  --warp-fade: 1;
+}
+
+html[data-warping='true'] main {
+  transform: scale(var(--warp-scale, 1));
+  opacity: var(--warp-fade, 1);
+  transform-origin: 50% 42%;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-arrive { animation: none; }
+  /* Declared here even though only JavaScript ever writes them. Without a
+   declaration in the stylesheet the optimiser treats `var(--warp-scale, 1)` as
+   a variable that cannot exist and folds it to the fallback, so the transform
+   computed to a permanent scale(1) no matter what was set on the element. */
+:root {
+  --warp-scale: 1;
+  --warp-fade: 1;
+}
+
+html[data-warping='true'] main { transform: none; opacity: 1; }
 }

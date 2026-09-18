@@ -3,6 +3,9 @@ import "./globals.css";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
+import ParticleFusion from "@/components/background/ParticleFusion";
+import AttentionField from "@/components/background/AttentionField";
+import WarpNav from "@/components/layout/WarpNav";
 import { getConfig } from "@/lib/config";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -50,9 +53,11 @@ export default function RootLayout({
           as="style"
           href="https://google-fonts.jialeliu.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
         />
+        {/* The script below intentionally swaps media before hydration. */}
         <link
           rel="stylesheet"
           id="gfonts-css"
+          suppressHydrationWarning
           href="https://google-fonts.jialeliu.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
           media="print"
         />
@@ -76,29 +81,22 @@ export default function RootLayout({
             href="https://google-fonts.jialeliu.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
           />
         </noscript>
+        {/* The site ships in night mode only; the light palette is kept in the
+            stylesheet but never applied. */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              try {
-                const theme = localStorage.getItem('theme-storage');
-                const parsed = theme ? JSON.parse(theme) : null;
-                const setting = parsed?.state?.theme || 'system';
-                const prefersDark = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                const effective = setting === 'dark' ? 'dark' : (setting === 'light' ? 'light' : (prefersDark ? 'dark' : 'light'));
-                var root = document.documentElement;
-                root.classList.add(effective);
-                root.setAttribute('data-theme', effective);
-              } catch (e) {
-                var root = document.documentElement;
-                root.classList.add('light');
-                root.setAttribute('data-theme', 'light');
-              }
+              var root = document.documentElement;
+              root.classList.add('dark');
+              root.setAttribute('data-theme', 'dark');
             `,
           }}
         />
       </head>
       <body className={`font-sans antialiased`}>
         <ThemeProvider>
+          <ParticleFusion />
+          <AttentionField />
           <Navigation
             items={config.navigation}
             siteTitle={config.site.title}
@@ -107,6 +105,7 @@ export default function RootLayout({
           <main className="min-h-screen pt-16 lg:pt-20">
             {children}
           </main>
+          <WarpNav pages={config.navigation.map(n => ({ title: n.title, href: n.href }))} />
           <Footer lastUpdated={config.site.last_updated} />
         </ThemeProvider>
       </body>

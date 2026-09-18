@@ -12,8 +12,9 @@ interface ThemeStore {
 export const useThemeStore = create<ThemeStore>()(
   persist(
     (set, get) => ({
-      // Default to system preference
-      theme: 'system',
+      // The site is designed for night: the field, the aurora and the glass
+      // surfaces are all built on a dark ground. The toggle still offers light.
+      theme: 'dark',
       setTheme: (theme: Theme) => {
         set({ theme });
         updateTheme(theme);

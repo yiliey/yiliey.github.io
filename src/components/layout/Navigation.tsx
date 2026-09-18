@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/lib/utils';
-import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { SiteConfig } from '@/lib/config';
 
 interface NavigationProps {
@@ -83,14 +82,12 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
       {({ open }) => (
         <>
           <motion.div
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.6 }}
+            initial={false}
             className={cn(
               'transition-all duration-300 ease-out',
               scrolled
                 ? 'bg-background/80 backdrop-blur-xl border-b border-neutral-200/50 shadow-lg'
-                : 'bg-transparent'
+                : 'bg-background/95 backdrop-blur-md border-b border-neutral-200/40'
             )}
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -109,10 +106,12 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
                   </Link>
                 </motion.div>
 
-                {/* Desktop Navigation */}
-                <div className="hidden lg:block">
-                  <div className="ml-10 flex items-center space-x-8">
-                    <div className="flex items-baseline space-x-8">
+                {/* Navigation stays visible at every viewport width. On narrow
+                    screens the links scroll horizontally instead of being
+                    hidden behind a JavaScript-dependent menu. */}
+                <div className="block min-w-0 flex-1 overflow-x-auto">
+                  <div className="ml-4 flex min-w-max items-center justify-end space-x-2 lg:ml-10 lg:space-x-8">
+                    <div className="flex items-baseline space-x-2 lg:space-x-8">
                       {items.map((item) => {
                         const isActive = enableOnePageMode
                           ? activeHash === `#${item.target}` || (!activeHash && item.target === 'about')
@@ -131,7 +130,7 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
                             prefetch={true}
                             onClick={() => enableOnePageMode && setActiveHash(`#${item.target}`)}
                             className={cn(
-                              'relative px-3 py-2 text-sm font-medium transition-all duration-200 rounded hover:bg-accent/10 hover:shadow-sm',
+                              'relative whitespace-nowrap px-2 py-2 text-sm font-medium transition-all duration-200 rounded hover:bg-accent/10 hover:shadow-sm lg:px-3',
                               isActive
                                 ? 'text-primary'
                                 : 'text-neutral-600 hover:text-primary'
@@ -154,13 +153,11 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
                         );
                       })}
                     </div>
-                    <ThemeToggle />
                   </div>
                 </div>
 
                 {/* Mobile menu button and theme toggle */}
-                <div className="lg:hidden flex items-center space-x-2">
-                  <ThemeToggle />
+                <div className="hidden">
                   <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-neutral-600 hover:text-primary hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent transition-colors duration-200">
                     <span className="sr-only">Open main menu</span>
                     <motion.div

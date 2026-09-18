@@ -1,5 +1,7 @@
-I am a PhD student at the School of Science, University of Example, advised by [Prof. Advisor One](https://example.com) and [Dr. Advisor Two](https://example.com).
+Graduate student in **Computational Science and Engineering** at **Georgia Institute of Technology**. I hold dual bachelor's degrees in **Data Science** from the **University of Michigan** and **Mechanical Engineering** from **Shanghai Jiao Tong University**.
 
-Prior to this, I obtained a BSc degree with First Class Honours in Natural Science from the University of Example.
+My research interests focus on **LLM applications** and **generative AI**, especially **multimodal foundation models**. I'm passionate about building **efficient, reliable, and production-ready AI systems** that bridge the gap between cutting-edge research and real-world deployment.
 
-My current research focuses on investigating the mathematical principles of natural philosophy.
+Recently, I completed an internship at **Alibaba Cloud**, where I worked on end-to-end video translation pipelines, multimodal generative APIs, and LoRA training strategies for diffusion models.
+
+**Open to Summer 2027 internships in Machine Learning and AI Engineering.**

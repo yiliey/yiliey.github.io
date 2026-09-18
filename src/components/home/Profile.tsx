@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
 import {
     EnvelopeIcon,
     AcademicCapIcon,
@@ -13,6 +12,8 @@ import { MapPinIcon as MapPinSolidIcon, EnvelopeIcon as EnvelopeSolidIcon } from
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 import { Github, Linkedin, Pin } from 'lucide-react';
 import { SiteConfig } from '@/lib/config';
+import DenoisePortrait from '@/components/home/DenoisePortrait';
+import StreamingText from '@/components/ui/StreamingText';
 
 // Custom ORCID icon component
 const OrcidIcon = ({ className }: { className?: string }) => (
@@ -60,7 +61,9 @@ export default function Profile({ author, social, features, researchInterests }:
         if (newLikedState) {
             localStorage.setItem('jiale-website-user-liked', 'true');
             setShowThanks(true);
-            setTimeout(() => setShowThanks(false), 2000);
+            window.setTimeout(() => {
+                window.location.href = 'https://jayden-xu.github.io/';
+            }, 800);
         } else {
             localStorage.removeItem('jiale-website-user-liked');
             setShowThanks(false);
@@ -110,22 +113,18 @@ export default function Profile({ author, social, features, researchInterests }:
             className="sticky top-8"
         >
             {/* Profile Image */}
-            <div className="w-64 h-64 mx-auto mb-6 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105">
-                <Image
-                    src={author.avatar}
-                    alt={author.name}
-                    width={256}
-                    height={256}
-                    className="w-full h-full object-cover object-[32%_center]"
-                    priority
-                />
+            <div className="w-72 h-72 mx-auto mb-7 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105">
+                <DenoisePortrait src={author.avatar} alt={author.name} size={288} />
             </div>
 
             {/* Name and Title */}
             <div className="text-center mb-6">
-                <h1 className="text-3xl font-serif font-bold text-primary mb-2">
-                    {author.name}
-                </h1>
+                <StreamingText
+                    as="h1"
+                    text={author.name}
+                    step={90}
+                    className="text-4xl font-serif font-bold text-primary mb-2 block"
+                />
                 <p className="text-lg text-accent font-medium mb-1">
                     {author.title}
                 </p>
@@ -136,34 +135,35 @@ export default function Profile({ author, social, features, researchInterests }:
 
             {/* Contact Links */}
             <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-6 relative px-2">
-                {socialLinks.map((link) => {
+                {socialLinks.map((link, index) => {
                     const IconComponent = link.icon;
+                    const pinned = link.isLocation ? isAddressPinned : isEmailPinned;
                     if (link.isLocation) {
                         return (
                             <div key={link.name} className="relative">
-                                <button
-                                    onMouseEnter={() => {
-                                        if (!isAddressPinned) setShowAddress(true);
-                                        setLastClickedTooltip('address');
-                                    }}
-                                    onMouseLeave={() => !isAddressPinned && setShowAddress(false)}
-                                    onClick={() => {
-                                        setIsAddressPinned(!isAddressPinned);
-                                        setShowAddress(!isAddressPinned);
-                                        setLastClickedTooltip('address');
-                                    }}
-                                    className={`p-2 sm:p-2 transition-colors duration-200 ${isAddressPinned
-                                        ? 'text-accent'
-                                        : 'text-neutral-600 dark:text-neutral-400 hover:text-accent'
-                                        }`}
-                                    aria-label={link.name}
-                                >
-                                    {isAddressPinned ? (
-                                        <MapPinSolidIcon className="h-5 w-5" />
-                                    ) : (
-                                        <MapPinIcon className="h-5 w-5" />
-                                    )}
-                                </button>
+                                                                    <button
+                                        onMouseEnter={() => {
+                                            if (!isAddressPinned) setShowAddress(true);
+                                            setLastClickedTooltip('address');
+                                        }}
+                                        onMouseLeave={() => !isAddressPinned && setShowAddress(false)}
+                                        onClick={() => {
+                                            setIsAddressPinned(!isAddressPinned);
+                                            setShowAddress(!isAddressPinned);
+                                            setLastClickedTooltip('address');
+                                        }}
+                                        className={`p-2 sm:p-2 transition-colors duration-200 ${isAddressPinned
+                                            ? 'text-accent'
+                                            : 'text-neutral-600 dark:text-neutral-600 hover:text-accent'
+                                            }`}
+                                        aria-label={link.name}
+                                    >
+                                        {isAddressPinned ? (
+                                            <MapPinSolidIcon className="h-5 w-5" />
+                                        ) : (
+                                            <MapPinIcon className="h-5 w-5" />
+                                        )}
+                                    </button>
 
                                 {/* Address tooltip */}
                                 <AnimatePresence>
@@ -218,29 +218,29 @@ export default function Profile({ author, social, features, researchInterests }:
                     if (link.isEmail) {
                         return (
                             <div key={link.name} className="relative">
-                                <button
-                                    onMouseEnter={() => {
-                                        if (!isEmailPinned) setShowEmail(true);
-                                        setLastClickedTooltip('email');
-                                    }}
-                                    onMouseLeave={() => !isEmailPinned && setShowEmail(false)}
-                                    onClick={() => {
-                                        setIsEmailPinned(!isEmailPinned);
-                                        setShowEmail(!isEmailPinned);
-                                        setLastClickedTooltip('email');
-                                    }}
-                                    className={`p-2 sm:p-2 transition-colors duration-200 ${isEmailPinned
-                                        ? 'text-accent'
-                                        : 'text-neutral-600 dark:text-neutral-400 hover:text-accent'
-                                        }`}
-                                    aria-label={link.name}
-                                >
-                                    {isEmailPinned ? (
-                                        <EnvelopeSolidIcon className="h-5 w-5" />
-                                    ) : (
-                                        <EnvelopeIcon className="h-5 w-5" />
-                                    )}
-                                </button>
+                                                                    <button
+                                        onMouseEnter={() => {
+                                            if (!isEmailPinned) setShowEmail(true);
+                                            setLastClickedTooltip('email');
+                                        }}
+                                        onMouseLeave={() => !isEmailPinned && setShowEmail(false)}
+                                        onClick={() => {
+                                            setIsEmailPinned(!isEmailPinned);
+                                            setShowEmail(!isEmailPinned);
+                                            setLastClickedTooltip('email');
+                                        }}
+                                        className={`p-2 sm:p-2 transition-colors duration-200 ${isEmailPinned
+                                            ? 'text-accent'
+                                            : 'text-neutral-600 dark:text-neutral-600 hover:text-accent'
+                                            }`}
+                                        aria-label={link.name}
+                                    >
+                                        {isEmailPinned ? (
+                                            <EnvelopeSolidIcon className="h-5 w-5" />
+                                        ) : (
+                                            <EnvelopeIcon className="h-5 w-5" />
+                                        )}
+                                    </button>
 
                                 {/* Email tooltip */}
                                 <AnimatePresence>
@@ -287,25 +287,24 @@ export default function Profile({ author, social, features, researchInterests }:
                         );
                     }
                     return (
-                        <a
-                            key={link.name}
-                            href={link.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 sm:p-2 text-neutral-600 dark:text-neutral-400 hover:text-accent transition-colors duration-200"
-                            aria-label={link.name}
-                        >
-                            <IconComponent className="h-5 w-5" />
-                        </a>
+                            <a
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-2 sm:p-2 text-neutral-600 dark:text-neutral-600 hover:text-accent transition-colors duration-200 block"
+                                aria-label={link.name}
+                            >
+                                <IconComponent className="h-5 w-5" />
+                            </a>
                     );
                 })}
             </div>
 
             {/* Research Interests */}
             {researchInterests && researchInterests.length > 0 && (
-                <div className="bg-neutral-100 dark:bg-neutral-800 rounded-lg p-4 mb-6 hover:shadow-lg transition-all duration-200 hover:scale-[1.02]">
-                    <h3 className="font-semibold text-primary mb-3">Research Interests</h3>
-                    <div className="space-y-2 text-sm text-neutral-700 dark:text-neutral-500">
+                <div className="surface rounded-lg p-5 mb-7 border">
+                    <h3 className="text-lg font-semibold text-primary mb-3">Research Interests</h3>
+                    <div className="space-y-2.5 text-base text-neutral-700 dark:text-neutral-600">
                         {researchInterests.map((interest, index) => (
                             <div key={index}>{interest}</div>
                         ))}
@@ -323,7 +322,7 @@ export default function Profile({ author, social, features, researchInterests }:
                             whileTap={{ scale: 0.95 }}
                             className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 ${hasLiked
                                 ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400'
-                                : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-500 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 cursor-pointer'
+                                : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-600 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 cursor-pointer'
                                 }`}
                         >
                             {hasLiked ? (
@@ -343,7 +342,7 @@ export default function Profile({ author, social, features, researchInterests }:
                                     exit={{ opacity: 0, y: -20, scale: 0.8 }}
                                     className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full bg-accent text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg whitespace-nowrap"
                                 >
-                                    Thanks! 😊
+                                    My sweetheart ♥
                                     <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-accent"></div>
                                 </motion.div>
                             )}

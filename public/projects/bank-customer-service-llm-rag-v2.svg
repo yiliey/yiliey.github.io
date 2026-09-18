@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1160" viewBox="0 0 1800 1160" role="img" aria-labelledby="title desc">
+<title id="title">Bank Customer Service LLM — LoRA Post-training and Hybrid RAG</title><desc id="desc">Offline model adaptation and parent-child knowledge indexing feed online hybrid retrieval and grounded generation. SFT results are verified. DPO artifacts and RAG evaluation results remain unavailable.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#0b1b4d"/></marker></defs>
+<rect x="0" y="0" width="1800" height="1160" rx="0" fill="#fdfdfd" stroke="#fdfdfd" stroke-width="1.3"/>
+<text x="900" y="55" font-family="Georgia, Times New Roman, serif" font-size="43" font-weight="700" fill="#0b1b4d" text-anchor="middle">Bank Customer Service LLM</text>
+<text x="900" y="91" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#40516a" text-anchor="middle">Domain adaptation with LoRA · Evidence retrieval with Parent–Child RAG</text>
+<path d="M40 65 H420" fill="none" stroke="#b7c3ce" stroke-width="2" stroke-linejoin="round"/>
+<path d="M1380 65 H1760" fill="none" stroke="#b7c3ce" stroke-width="2" stroke-linejoin="round"/>
+<rect x="40" y="124" width="842" height="386" rx="17" fill="#f4f7fc" stroke="#a8bddd" stroke-width="1.3"/>
+<circle cx="80" cy="156" r="18" fill="#315dac"/>
+<text x="80" y="163" font-family="Georgia, Times New Roman, serif" font-size="21" font-weight="700" fill="#ffffff" text-anchor="middle">a</text>
+<text x="110" y="165" font-family="Georgia, Times New Roman, serif" font-size="27" font-weight="700" fill="#0b1b4d" text-anchor="start">Model post-training</text>
+<rect x="712" y="142" width="145" height="27" rx="13" fill="#e6eef9" stroke="#e6eef9" stroke-width="1.3"/>
+<text x="784.5" y="161" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#315dac" text-anchor="middle">OFFLINE TRAINING</text>
+<rect x="65" y="202" width="219" height="89" rx="12" fill="#fff" stroke="#c9d6e7" stroke-width="1.3"/>
+<text x="174.5" y="236" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0b1b4d" text-anchor="middle">Qwen2.5-3B</text>
+<text x="174.5" y="263" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#40516a" text-anchor="middle">Instruct base model</text>
+<rect x="331" y="202" width="228" height="89" rx="12" fill="#fff" stroke="#c9d6e7" stroke-width="1.3"/>
+<text x="445.0" y="236" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0b1b4d" text-anchor="middle">LoRA SFT</text>
+<text x="445.0" y="263" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#40516a" text-anchor="middle">3,999 domain examples</text>
+<rect x="606" y="202" width="250" height="89" rx="12" fill="#fff" stroke="#c9d6e7" stroke-width="1.3"/>
+<text x="731.0" y="236" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0b1b4d" text-anchor="middle">SFT adapter</text>
+<text x="731.0" y="263" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#40516a" text-anchor="middle">Saved weights + results</text>
+<path d="M284 246 H331" fill="none" stroke="#0b1b4d" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M559 246 H606" fill="none" stroke="#0b1b4d" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="65" y="325" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#315dac" text-anchor="start">Verified run</text>
+<text x="180" y="325" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#40516a" text-anchor="start">rank 16  ·  α 32  ·  LR 5e−5  ·  6 epochs</text>
+<rect x="65" y="351" width="492" height="130" rx="11" fill="#faf9fd" stroke="#c4b7d8" stroke-width="1.3" stroke-dasharray="6 5"/>
+<text x="83" y="380" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#7146a6" text-anchor="start">DPO continuation</text>
+<text x="83" y="407" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#40516a" text-anchor="start">2,000 chosen / rejected preference pairs</text>
+<text x="83" y="434" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#40516a" text-anchor="start">Continue the SFT LoRA adapter</text>
+<text x="83" y="459" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#796581" text-anchor="start">Reconstructed config; final weights / logs missing</text>
+<path d="M445 291 V302 H575 V338 H520 V351" fill="none" stroke="#7146a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="6 5"/>
+<rect x="606" y="351" width="250" height="130" rx="12" fill="#ffffff" stroke="#c9d6e7" stroke-width="1.3"/>
+<text x="731" y="382" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0b1b4d" text-anchor="middle">Model for inference</text>
+<text x="731" y="413" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#315dac" text-anchor="middle">Base + SFT LoRA</text>
+<text x="731" y="444" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#40516a" text-anchor="middle">or an available final adapter</text>
+<text x="731" y="464" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#40516a" text-anchor="middle">Optional one-time merge</text>
+<path d="M731 291 V351" fill="none" stroke="#0b1b4d" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="906" y="124" width="854" height="386" rx="17" fill="#f3f9f5" stroke="#a7cbb6" stroke-width="1.3"/>
+<circle cx="946" cy="156" r="18" fill="#2f855a"/>
+<text x="946" y="163" font-family="Georgia, Times New Roman, serif" font-size="21" font-weight="700" fill="#ffffff" text-anchor="middle">b</text>
+<text x="976" y="165" font-family="Georgia, Times New Roman, serif" font-size="27" font-weight="700" fill="#0b1b4d" text-anchor="start">Parent–Child knowledge index</text>
+<rect x="1600" y="142" width="135" height="27" rx="13" fill="#e9f4ed" stroke="#e9f4ed" stroke-width="1.3"/>
+<text x="1667.5" y="161" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#2f855a" text-anchor="middle">OFFLINE INDEX</text>
+<rect x="938" y="215" width="47" height="57" rx="5" fill="#fff" stroke="#2f855a" stroke-width="1.3"/>
+<path d="M946 230 h31" fill="none" stroke="#2f855a" stroke-width="2" stroke-linejoin="round"/>
+<path d="M946 240 h31" fill="none" stroke="#2f855a" stroke-width="2" stroke-linejoin="round"/>
+<path d="M946 250 h23" fill="none" stroke="#2f855a" stroke-width="2" stroke-linejoin="round"/>
+<rect x="946" y="223" width="47" height="57" rx="5" fill="#fff" stroke="#2f855a" stroke-width="1.3"/>
+<path d="M954 238 h31" fill="none" stroke="#2f855a" stroke-width="2" stroke-linejoin="round"/>
+<path d="M954 248 h31" fill="none" stroke="#2f855a" stroke-width="2" stroke-linejoin="round"/>
+<path d="M954 258 h23" fill="none" stroke="#2f855a" stroke-width="2" stroke-linejoin="round"/>
+<text x="970" y="304" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#40516a" text-anchor="middle">Bank / regulatory</text>
+<text x="970" y="326" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#40516a" text-anchor="middle">PDFs</text>
+<path d="M1006 253 H1042" fill="none" stroke="#0b1b4d" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="1042" y="202" width="220" height="140" rx="12" fill="#fff" stroke="#b9d4c4" stroke-width="1.3"/>
+<text x="1152" y="231" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0b1b4d" text-anchor="middle">Parent sections</text>
+<rect x="1063" y="248" width="177" height="15" rx="3" fill="#e8f2e9" stroke="#d2e4d5" stroke-width="1.3"/>
+<rect x="1063" y="270" width="177" height="15" rx="3" fill="#e8f2e9" stroke="#d2e4d5" stroke-width="1.3"/>
+<rect x="1063" y="292" width="177" height="15" rx="3" fill="#e8f2e9" stroke="#d2e4d5" stroke-width="1.3"/>
+<text x="1152" y="330" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#40516a" text-anchor="middle">Split by document headings</text>
+<path d="M1262 253 H1297" fill="none" stroke="#0b1b4d" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="1297" y="202" width="211" height="140" rx="12" fill="#fff" stroke="#b9d4c4" stroke-width="1.3"/>
+<text x="1402" y="231" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0b1b4d" text-anchor="middle">Child chunks</text>
+<rect x="1319" y="249" width="47" height="47" rx="5" fill="#dceee3" stroke="#a8cbb6" stroke-width="1.3"/>
+<path d="M1328 263 h29 M1328 273 h29 M1328 283 h19" fill="none" stroke="#2f855a" stroke-width="2" stroke-linejoin="round"/>
+<rect x="1376" y="249" width="47" height="47" rx="5" fill="#dceee3" stroke="#a8cbb6" stroke-width="1.3"/>
+<path d="M1385 263 h29 M1385 273 h29 M1385 283 h19" fill="none" stroke="#2f855a" stroke-width="2" stroke-linejoin="round"/>
+<rect x="1433" y="249" width="47" height="47" rx="5" fill="#dceee3" stroke="#a8cbb6" stroke-width="1.3"/>
+<path d="M1442 263 h29 M1442 273 h29 M1442 283 h19" fill="none" stroke="#2f855a" stroke-width="2" stroke-linejoin="round"/>
+<text x="1402" y="330" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#40516a" text-anchor="middle">Semantic split of long Parents</text>
+<path d="M1508 253 H1543" fill="none" stroke="#0b1b4d" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="1543" y="202" width="193" height="140" rx="12" fill="#fff" stroke="#c4d8cc" stroke-width="1.3"/>
+<text x="1639.5" y="236" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0b1b4d" text-anchor="middle">BGE embeddings</text>
+<text x="1639.5" y="263" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#40516a" text-anchor="middle">Normalized vectors</text>
+<text x="1639" y="302" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#2f855a" text-anchor="middle">FAISS index</text>
+<text x="1639" y="327" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#40516a" text-anchor="middle">Child-level search</text>
+<rect x="938" y="364" width="798" height="112" rx="12" fill="#fff" stroke="#c3dccc" stroke-width="1.3"/>
+<rect x="959" y="389" width="36" height="52" rx="5" fill="#fff" stroke="#2f855a" stroke-width="1.3"/>
+<path d="M967 404 h20" fill="none" stroke="#2f855a" stroke-width="2" stroke-linejoin="round"/>
+<path d="M967 414 h20" fill="none" stroke="#2f855a" stroke-width="2" stroke-linejoin="round"/>
+<path d="M967 424 h12" fill="none" stroke="#2f855a" stroke-width="2" stroke-linejoin="round"/>
+<text x="1016" y="393" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#0b1b4d" text-anchor="start">Every Child keeps its Parent context</text>
+<text x="1016" y="422" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#40516a" text-anchor="start">Child text + parent_text + source metadata → chunks.pkl</text>
+<text x="1016" y="450" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#40516a" text-anchor="start">Short Parents are indexed directly; BM25 is built from the same retrieval units.</text>
+<rect x="40" y="550" width="1720" height="325" rx="17" fill="#f7f9fb" stroke="#b9c5d2" stroke-width="1.3"/>
+<circle cx="80" cy="582" r="18" fill="#2f855a"/>
+<text x="80" y="589" font-family="Georgia, Times New Roman, serif" font-size="21" font-weight="700" fill="#ffffff" text-anchor="middle">c</text>
+<text x="110" y="591" font-family="Georgia, Times New Roman, serif" font-size="27" font-weight="700" fill="#0b1b4d" text-anchor="start">Online retrieval &amp; grounded generation</text>
+<rect x="1572" y="569" width="164" height="27" rx="13" fill="#e9f4ed" stroke="#e9f4ed" stroke-width="1.3"/>
+<text x="1654.0" y="588" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#2f855a" text-anchor="middle">INFERENCE</text>
+<rect x="65" y="670" width="167" height="89" rx="12" fill="#fff" stroke="#c4d8cc" stroke-width="1.3"/>
+<text x="148.5" y="704" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0b1b4d" text-anchor="middle">Question</text>
+<text x="148.5" y="731" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#40516a" text-anchor="middle">Customer query</text>
+<rect x="280" y="632" width="217" height="72" rx="12" fill="#fff" stroke="#c4d8cc" stroke-width="1.3"/>
+<text x="388.5" y="666" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0b1b4d" text-anchor="middle">FAISS dense</text>
+<text x="388.5" y="693" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#40516a" text-anchor="middle">Top 20 candidates</text>
+<rect x="280" y="738" width="217" height="72" rx="12" fill="#fff" stroke="#c4d8cc" stroke-width="1.3"/>
+<text x="388.5" y="772" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0b1b4d" text-anchor="middle">BM25 sparse</text>
+<text x="388.5" y="799" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#40516a" text-anchor="middle">Top 20 candidates</text>
+<path d="M232 714 H255 V668 H280" fill="none" stroke="#0b1b4d" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M255 714 V774 H280" fill="none" stroke="#0b1b4d" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M497 668 H519 V714 H546" fill="none" stroke="#0b1b4d" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M497 774 H519 V714" fill="none" stroke="#0b1b4d" stroke-width="2" stroke-linejoin="round"/>
+<rect x="546" y="670" width="160" height="89" rx="12" fill="#fff" stroke="#c4d8cc" stroke-width="1.3"/>
+<text x="626.0" y="704" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0b1b4d" text-anchor="middle">Merge</text>
+<text x="626.0" y="731" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#40516a" text-anchor="middle">Deduplicate</text>
+<rect x="749" y="670" width="192" height="89" rx="12" fill="#fff" stroke="#c4d8cc" stroke-width="1.3"/>
+<text x="845.0" y="704" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0b1b4d" text-anchor="middle">BGE reranker</text>
+<text x="845.0" y="731" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#40516a" text-anchor="middle">Top 3 · score ≥ 0.1</text>
+<rect x="984" y="670" width="221" height="89" rx="12" fill="#fff" stroke="#c4d8cc" stroke-width="1.3"/>
+<text x="1094.5" y="704" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0b1b4d" text-anchor="middle">Parent expansion</text>
+<text x="1094.5" y="731" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#40516a" text-anchor="middle">Restore parent_text</text>
+<rect x="1248" y="670" width="220" height="89" rx="12" fill="#fff" stroke="#c4d8cc" stroke-width="1.3"/>
+<text x="1358.0" y="704" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0b1b4d" text-anchor="middle">Grounded prompt</text>
+<text x="1358.0" y="731" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#40516a" text-anchor="middle">Question + evidence</text>
+<rect x="1511" y="670" width="221" height="89" rx="12" fill="#f8f5fc" stroke="#d2c9e4" stroke-width="1.3"/>
+<text x="1621.5" y="704" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#0b1b4d" text-anchor="middle">Qwen + LoRA</text>
+<text x="1621.5" y="731" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#40516a" text-anchor="middle">Evidence-based answer</text>
+<path d="M706 714 H749" fill="none" stroke="#0b1b4d" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M941 714 H984" fill="none" stroke="#0b1b4d" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M1205 714 H1248" fill="none" stroke="#0b1b4d" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M1468 714 H1511" fill="none" stroke="#0b1b4d" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="65" y="847" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#2f855a" text-anchor="start">Retrieve precise passages</text>
+<text x="749" y="847" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#2f855a" text-anchor="start">Recover coherent context</text>
+<text x="1248" y="847" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#40516a" text-anchor="start">Prompt instructs abstention when evidence is insufficient</text>
+<path d="M1639 476 V533 H888 V605 H388 V632" fill="none" stroke="#2f855a" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="1065" y="516" width="321" height="32" rx="0" fill="#fdfdfd" stroke="#fdfdfd" stroke-width="1.3"/>
+<text x="1225" y="538" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#2f855a" text-anchor="middle">Index + shared chunk metadata</text>
+<path d="M731 481 V524 H1780 V651 H1621 V670" fill="none" stroke="#fdfdfd" stroke-width="7"/>
+<path d="M731 481 V524 H1780 V651 H1621 V670" fill="none" stroke="#315dac" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="1080" y="637" width="375" height="29" rx="0" fill="#f7f9fb" stroke="#f7f9fb" stroke-width="1.3"/>
+<text x="1267" y="658" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#315dac" text-anchor="middle">Load base model + selected adapter</text>
+<rect x="40" y="907" width="1720" height="168" rx="17" fill="#fdf9f0" stroke="#dfceb0" stroke-width="1.3"/>
+<circle cx="80" cy="939" r="18" fill="#a57c43"/>
+<text x="80" y="946" font-family="Georgia, Times New Roman, serif" font-size="21" font-weight="700" fill="#ffffff" text-anchor="middle">d</text>
+<text x="110" y="948" font-family="Georgia, Times New Roman, serif" font-size="27" font-weight="700" fill="#0b1b4d" text-anchor="start">Verified SFT evaluation</text>
+<text x="1735" y="945" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#40516a" text-anchor="end">535 cleaned test examples · base vs. LoRA SFT</text>
+<text x="80" y="990" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#40516a" text-anchor="start">BLEU-4</text>
+<text x="80" y="1038" font-family="Georgia, Times New Roman, serif" font-size="36" font-weight="400" fill="#0b1b4d" text-anchor="start">6.12</text>
+<path d="M169 1026 H221" fill="none" stroke="#a57c43" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="244" y="1038" font-family="Georgia, Times New Roman, serif" font-size="40" font-weight="700" fill="#2f855a" text-anchor="start">27.61</text>
+<path d="M432 971 V1051" fill="none" stroke="#dfceb0" stroke-width="2" stroke-linejoin="round"/>
+<text x="478" y="990" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#40516a" text-anchor="start">ROUGE-L</text>
+<text x="478" y="1038" font-family="Georgia, Times New Roman, serif" font-size="36" font-weight="400" fill="#0b1b4d" text-anchor="start">17.81</text>
+<path d="M584 1026 H636" fill="none" stroke="#a57c43" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="659" y="1038" font-family="Georgia, Times New Roman, serif" font-size="40" font-weight="700" fill="#2f855a" text-anchor="start">39.04</text>
+<path d="M863 971 V1051" fill="none" stroke="#dfceb0" stroke-width="2" stroke-linejoin="round"/>
+<text x="910" y="988" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#0b1b4d" text-anchor="start">Evidence boundary</text>
+<text x="910" y="1018" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#40516a" text-anchor="start">Saved SFT results are verified. DPO outputs were not retained.</text>
+<text x="910" y="1047" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#40516a" text-anchor="start">RAG code is present; corpus / index and evaluation results are absent.</text>
+<text x="40" y="1120" font-family="Georgia, Times New Roman, serif" font-size="19" font-weight="400" fill="#0b1b4d" text-anchor="start">Model adaptation shapes response behavior. Retrieval supplies document context at inference time.</text>
+<text x="1760" y="1120" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#64748b" text-anchor="end">PRISM  /  SYSTEM ARCHITECTURE</text>
+</svg>

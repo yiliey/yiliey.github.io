@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  distDir: process.env.PRISM_DEV_DIST || '.next',
   output: 'export',
   trailingSlash: true,
   images: {
