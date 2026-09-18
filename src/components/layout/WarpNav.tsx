@@ -30,6 +30,18 @@ const WAKE = 0.05;
  * from the next.
  */
 const GESTURE_GAP = 220;
+/**
+ * Hard silence after arriving, in ms.
+ *
+ * The gap rule above assumes momentum arrives in an unbroken stream. That holds
+ * for the synthetic wheel events this was tested with, but a real trackpad
+ * decelerates, and a long enough gap in the tail would re-arm the handler and
+ * let the chain happen anyway. This does not depend on the shape of the tail:
+ * for this long after a jump, nothing counts at all.
+ */
+const ARRIVAL_LOCK = 650;
+/** Momentum decays to a crawl; deliberate scrolling does not start there. */
+const MIN_DELTA = 4;
 
 /**
  * Wheel deltas are not all in pixels: a classic mouse reports lines, and some
@@ -56,6 +68,7 @@ export default function WarpNav({ pages }: { pages: { title: string; href: strin
   // Disarmed on arrival; re-armed by the first wheel event after a real pause.
   const armed = useRef(true);
   const lastWheelAt = useRef(0);
+  const arrivedAt = useRef(0);
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -72,8 +85,13 @@ export default function WarpNav({ pages }: { pages: { title: string; href: strin
       const gap = now - lastWheelAt.current;
       lastWheelAt.current = now;
       if (!armed.current) {
+        const sinceArrival = now - arrivedAt.current;
         // Still the tail of the flick that brought us here: swallow it.
-        if (gap < GESTURE_GAP) { charge.current = 0; target.current = null; return; }
+        if (sinceArrival < ARRIVAL_LOCK || gap < GESTURE_GAP || Math.abs(pixels(event)) < MIN_DELTA) {
+          charge.current = 0;
+          target.current = null;
+          return;
+        }
         armed.current = true;
       }
 
@@ -186,6 +204,7 @@ export default function WarpNav({ pages }: { pages: { title: string; href: strin
     target.current = null;
     // The next page has to be asked for deliberately, not coasted into.
     armed.current = false;
+    arrivedAt.current = performance.now();
     lastWheelAt.current = performance.now();
     // Drop the zoom instantly on arrival so the incoming page can expand from
     // its own starting scale rather than inheriting the outgoing one.
