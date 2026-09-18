@@ -19,6 +19,17 @@ const TRAVEL = 400;
 const DECAY = 2.0;
 /** Below this the field is at rest and the prompt is hidden. */
 const WAKE = 0.05;
+/**
+ * Quiet needed before a new gesture counts, in ms.
+ *
+ * A trackpad flick keeps emitting wheel events long after the fingers have
+ * lifted, and the page you just arrived on starts at the top — which is exactly
+ * the condition the backwards jump looks for. Without this, one flick upward
+ * carried straight through two pages: projects to publications to about.
+ * Momentum has no gaps in it, so a real pause is what separates one gesture
+ * from the next.
+ */
+const GESTURE_GAP = 220;
 
 /**
  * Wheel deltas are not all in pixels: a classic mouse reports lines, and some
@@ -42,6 +53,9 @@ export default function WarpNav({ pages }: { pages: { title: string; href: strin
   const target = useRef<string | null>(null);
   const launched = useRef(false);
   const zoom = useRef(0);
+  // Disarmed on arrival; re-armed by the first wheel event after a real pause.
+  const armed = useRef(true);
+  const lastWheelAt = useRef(0);
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -53,6 +67,16 @@ export default function WarpNav({ pages }: { pages: { title: string; href: strin
 
     const onWheel = (event: WheelEvent) => {
       if (launched.current) return;
+
+      const now = performance.now();
+      const gap = now - lastWheelAt.current;
+      lastWheelAt.current = now;
+      if (!armed.current) {
+        // Still the tail of the flick that brought us here: swallow it.
+        if (gap < GESTURE_GAP) { charge.current = 0; target.current = null; return; }
+        armed.current = true;
+      }
+
       const doc = document.documentElement;
       const delta = pixels(event);
       const atBottom = window.scrollY + window.innerHeight >= doc.scrollHeight - 2;
@@ -160,6 +184,9 @@ export default function WarpNav({ pages }: { pages: { title: string; href: strin
     launched.current = false;
     charge.current = 0;
     target.current = null;
+    // The next page has to be asked for deliberately, not coasted into.
+    armed.current = false;
+    lastWheelAt.current = performance.now();
     // Drop the zoom instantly on arrival so the incoming page can expand from
     // its own starting scale rather than inheriting the outgoing one.
     zoom.current = 0;
