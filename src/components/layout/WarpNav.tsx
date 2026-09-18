@@ -69,6 +69,7 @@ export default function WarpNav({ pages }: { pages: { title: string; href: strin
   const armed = useRef(true);
   const lastWheelAt = useRef(0);
   const arrivedAt = useRef(0);
+  const quietTimer = useRef(0);
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -82,18 +83,12 @@ export default function WarpNav({ pages }: { pages: { title: string; href: strin
       if (launched.current) return;
 
       const now = performance.now();
-      const gap = now - lastWheelAt.current;
       lastWheelAt.current = now;
-      if (!armed.current) {
-        const sinceArrival = now - arrivedAt.current;
-        // Still the tail of the flick that brought us here: swallow it.
-        if (sinceArrival < ARRIVAL_LOCK || gap < GESTURE_GAP || Math.abs(pixels(event)) < MIN_DELTA) {
-          charge.current = 0;
-          target.current = null;
-          return;
-        }
-        armed.current = true;
-      }
+      // Arming happens in the pause *after* a gesture, not on the next event:
+      // continuous scrolling never leaves a 220ms gap between events, so testing
+      // the gap here meant one flick could disable the gesture indefinitely.
+      window.clearTimeout(quietTimer.current);
+      quietTimer.current = window.setTimeout(() => { armed.current = true; }, GESTURE_GAP);
 
       const doc = document.documentElement;
       const delta = pixels(event);
@@ -103,7 +98,13 @@ export default function WarpNav({ pages }: { pages: { title: string; href: strin
       if (index < 0) return;
 
       const forward = delta > 0 && atBottom && index < pages.length - 1;
-      const back = delta < 0 && atTop && index > 0;
+      // Only the backwards jump needs guarding. Landing on a page puts you at
+      // its top, which is exactly the condition this looks for, so momentum can
+      // chain it. The forward jump needs the *bottom* of the page, which an
+      // arrival never satisfies, so it cannot chain and is left alone.
+      const settling = now - arrivedAt.current < ARRIVAL_LOCK;
+      const back = delta < 0 && atTop && index > 0
+        && armed.current && !settling && Math.abs(delta) >= MIN_DELTA;
       if (!forward && !back) {
         charge.current = 0;
         target.current = null;
@@ -187,6 +188,7 @@ export default function WarpNav({ pages }: { pages: { title: string; href: strin
     });
 
     return () => {
+      window.clearTimeout(quietTimer.current);
       window.removeEventListener('wheel', onWheel);
       window.removeEventListener('keydown', onKey);
       stop();
@@ -206,6 +208,11 @@ export default function WarpNav({ pages }: { pages: { title: string; href: strin
     armed.current = false;
     arrivedAt.current = performance.now();
     lastWheelAt.current = performance.now();
+    // Arm on a timer rather than waiting for a wheel event to start one: if the
+    // page is simply left alone, the gesture should be ready. Any wheel event
+    // pushes this back, so momentum still has to die down first.
+    window.clearTimeout(quietTimer.current);
+    quietTimer.current = window.setTimeout(() => { armed.current = true; }, ARRIVAL_LOCK);
     // Drop the zoom instantly on arrival so the incoming page can expand from
     // its own starting scale rather than inheriting the outgoing one.
     zoom.current = 0;
