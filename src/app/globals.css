@@ -627,11 +627,16 @@ html[data-warping='true'] main { transform: none; opacity: 1; }
 }
 
 
-/* The Y beside the site name, drifting.
-   Same rhythm as the modality chips on the projects page, a touch slower and
-   shallower — it sits next to type that has to stay readable, so it may not
-   bob hard enough to drag the eye off the words. The glow is the site's gold
-   at low strength, so the mark reads as lit rather than printed. */
+/* The Y beside the site name: drifting, and turning on its own vertical axis.
+   Two nested elements rather than one, because a single element cannot run two
+   animations on `transform` — the float would simply overwrite the spin. The
+   outer one bobs, the inner one turns, on periods that do not divide into each
+   other so the pair never settles into a visible loop.
+
+   It is a flat shape, so a quarter turn foreshortens it to an edge, the same
+   way the heart in the corner does. The perspective is deliberately short for
+   something this small: without it the turn is a horizontal squash and reads
+   as nothing at all. */
 .site-mark {
   display: inline-flex;
   color: var(--accent);
@@ -640,18 +645,38 @@ html[data-warping='true'] main { transform: none; opacity: 1; }
   will-change: transform;
 }
 
+.site-mark-spin {
+  display: inline-flex;
+  animation: site-mark-spin 9s ease-in-out infinite;
+  will-change: transform;
+}
+
 @keyframes site-mark-float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-3.5px); }
 }
 
+@keyframes site-mark-spin {
+  0%   { transform: perspective(160px) rotateY(-68deg); }
+  50%  { transform: perspective(160px) rotateY(68deg); }
+  100% { transform: perspective(160px) rotateY(-68deg); }
+}
+
+/* Hovering stops it mid-turn and squares it up, so the thing you are about to
+   click holds still and faces you. */
 a:hover > .site-mark {
-  animation-play-state: paused;
   transform: translateY(-1px) scale(1.06);
   transition: transform .25s cubic-bezier(.22,.61,.36,1);
+  animation-play-state: paused;
+}
+
+a:hover > .site-mark > .site-mark-spin {
+  animation-play-state: paused;
+  transform: perspective(160px) rotateY(0deg);
+  transition: transform .3s cubic-bezier(.22,.61,.36,1);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-mark { animation: none; }
-  a:hover > .site-mark { transform: none; }
+  .site-mark, .site-mark-spin { animation: none; }
+  a:hover > .site-mark, a:hover > .site-mark > .site-mark-spin { transform: none; }
 }

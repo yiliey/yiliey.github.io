@@ -96,7 +96,7 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="flex-shrink-0"
+                  className="flex-shrink-0 -ml-2 lg:-ml-5"
                 >
                   <Link
                     href="/"
@@ -106,6 +106,7 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
                         static snapshot to a browser, so this is where it gets
                         to move — drifting on the site's own float rhythm. */}
                     <span className="site-mark" aria-hidden="true">
+                      <span className="site-mark-spin">
                       <svg viewBox="0 0 64 64" width="26" height="26">
                         <path d="M19 17 L32 35 L45 17" fill="none" stroke="currentColor" strokeWidth="7.5"
                               strokeLinecap="round" strokeLinejoin="round" />
@@ -113,6 +114,7 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
                         <circle cx="32" cy="50" r="3.6" fill="currentColor" />
                         <circle cx="32" cy="57.5" r="2.1" fill="currentColor" opacity=".55" />
                       </svg>
+                      </span>
                     </span>
                     {siteTitle}
                   </Link>
