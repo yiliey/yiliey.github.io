@@ -100,8 +100,20 @@ export default function Navigation({ items, siteTitle, enableOnePageMode }: Navi
                 >
                   <Link
                     href="/"
-                    className="text-xl lg:text-2xl font-serif font-semibold text-primary hover:text-accent transition-colors duration-200"
+                    className="flex items-center gap-2.5 text-xl lg:text-2xl font-serif font-semibold text-primary hover:text-accent transition-colors duration-200"
                   >
+                    {/* The same mark as the tab icon. A favicon is only ever a
+                        static snapshot to a browser, so this is where it gets
+                        to move — drifting on the site's own float rhythm. */}
+                    <span className="site-mark" aria-hidden="true">
+                      <svg viewBox="0 0 64 64" width="26" height="26">
+                        <path d="M19 17 L32 35 L45 17" fill="none" stroke="currentColor" strokeWidth="7.5"
+                              strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M32 35 L32 41" fill="none" stroke="currentColor" strokeWidth="7.5" strokeLinecap="round" />
+                        <circle cx="32" cy="50" r="3.6" fill="currentColor" />
+                        <circle cx="32" cy="57.5" r="2.1" fill="currentColor" opacity=".55" />
+                      </svg>
+                    </span>
                     {siteTitle}
                   </Link>
                 </motion.div>
