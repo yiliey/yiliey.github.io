@@ -1,3 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="32" height="32">
-  <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" font-size="80">💪</text>
-</svg> 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- A Y that breaks into particles: the initial and the site's own material,
+       which is the same thing twice over. The rounded plate is not decoration —
+       a bare glyph loses its edges against a dark browser tab. -->
+  <rect width="64" height="64" rx="15" fill="#171935"/>
+  <path d="M19 17 L32 35 L45 17" fill="none" stroke="#e4b976" stroke-width="7.5"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 35 L32 41" fill="none" stroke="#e4b976" stroke-width="7.5" stroke-linecap="round"/>
+  <circle cx="32" cy="50" r="3.6" fill="#e4b976"/>
+  <circle cx="32" cy="57.5" r="2.1" fill="#e4b976" opacity=".55"/>
+</svg>
