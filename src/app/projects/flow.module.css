@@ -149,7 +149,10 @@
 /* Period and, where there is one, the distinction the project earned: side by
    side rather than stacked, so the footer stays one line deep. */
 .timeline { border-top:1px solid var(--line); margin-top:26px; padding-top:20px; display:flex; flex-wrap:wrap; gap:clamp(24px,5vw,64px); }
+/* The medal carries the accent; the award itself stays in the text colour, so
+   the colour marks the distinction rather than shouting the whole line. */
 .award { align-items:center; gap:8px !important; color:var(--foreground); }
+.award svg { color:var(--accent); flex:none; }
 .timeline p { display:flex; gap:14px; color:var(--field-muted); font:600 .8rem var(--font-mono); margin:10px 0 0; }
 
 @keyframes reveal { from { opacity:0; transform:translateY(14px) scale(.975); } to { opacity:1; transform:none; } }

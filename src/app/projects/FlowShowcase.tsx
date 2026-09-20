@@ -39,7 +39,7 @@ const projects = [
     ],
     period: { label: "PROJECT PERIOD", from: ["2026-02", "FEB 2026"], to: ["2026-05", "MAY 2026"] },
   },
-  { title: "Robot Code Generation", repo: "https://github.com/ZAMERT/RAPID-RAG", modes: [3, 4], summary: "Vendor manuals, organised so a model can write robot code that runs.", contribution: "Built the knowledge base and retrieval system: segmented indexing, a cross-reference document graph, and query-to-category routing over the candidate budget.", problem: "Generate runnable RAPID code for ABB industrial robots from a natural-language task, grounded in the official manuals.",
+  { title: "Segmented RAG for RAPID Code", repo: "https://github.com/ZAMERT/RAPID-RAG", modes: [3, 4], summary: "Vendor manuals, organised so a model can write robot code that runs.", contribution: "Built the knowledge base and retrieval system: segmented indexing, a cross-reference document graph, and query-to-category routing over the candidate budget.", problem: "Generate runnable RAPID code for ABB industrial robots from a natural-language task, grounded in the official manuals.",
     details: [
       "Constructed a segmented RAG knowledge base from eight ABB RAPID manuals, sorting every section into definitions (2,654 chunks), syntax (598), and worked examples (843), each embedded with BAAI/bge-m3 in its own collection.",
       "Layered a document graph of 12,000 nodes and 14,000 hyperlink edges over the text index, expanding retrieval along cross-reference edges to recover procedure steps spread across linked manual pages.",
