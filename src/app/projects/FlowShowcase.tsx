@@ -39,14 +39,14 @@ const projects = [
     ],
     period: { label: "PROJECT PERIOD", from: ["2026-02", "FEB 2026"], to: ["2026-05", "MAY 2026"] },
   },
-  { title: "Robot Code Assistant", repo: "https://github.com/ZAMERT/RAPID-RAG", modes: [3, 4], summary: "Vendor manuals, organised so a model can actually write code that runs on the robot.", contribution: "Owned the knowledge base and the retrieval system: segmented eight ABB manuals into three collections, added hybrid search with routing, and layered a cross-reference graph on top.", problem: "Turn a plain-language task into RAPID code an ABB industrial robot can run \u2014 grounded in the official manuals rather than in what a model half-remembers about them.",
+  { title: "Robot Code Assistant", repo: "https://github.com/ZAMERT/RAPID-RAG", modes: [3, 4], summary: "Eight manuals of robot documentation, organised so a model can write code that actually runs.", contribution: "Owned the knowledge base and the retrieval system, and checked the whole pipeline still held together once the generator moved off an API and onto a model running locally.", problem: "Describe a robot task in plain English and get back RAPID code an ABB arm can run \u2014 with every instruction traceable to the manual page it came from, rather than to whatever the model half-remembers.",
     details: [
-      "Segmented eight official ABB RAPID manuals by section type into 2,654 definition, 598 syntax, and 843 example chunks, each stored with its bge-m3 embedding.",
-      "Ran similarity and keyword search together for the top 20 chunks, behind a routing step so a question only searches the collections that can answer it.",
-      "Built a document-level graph of ~12,000 nodes and ~14,000 cross-reference links, expanding along those links so the steps of one I/O procedure come back together instead of in fragments.",
-      "Compared three designs \u2014 no retrieval, one combined store, and the segmented collections \u2014 to show that how the knowledge is organised matters more than how many chunks are retrieved.",
-      "Verified the pipeline end to end after the generator moved from the DeepSeek API to a local llama.cpp model, keeping retrieval and generation working together offline.",
+      "Took eight official ABB manuals apart by what each section actually is: 2,654 definitions, 598 syntax pages, 843 worked examples, each kind in its own collection. Before that everything sat in one store cut to a fixed length, so a chunk was usually a bit of everything, and often sliced through the middle of a code example.",
+      "Retrieval runs similarity search and keyword search side by side and merges the two rankings, with a routing step in front so a question only searches the collections that could answer it. Keyword search earns its keep here \u2014 plenty of questions name an instruction outright, like MoveL or WaitDI.",
+      "Similarity search finds pages that look like the question, but these manuals are held together by cross-references: BitClear and BitSet only make sense as a pair, and the steps of one I/O procedure are spread across pages. So I built a graph over the documents, roughly 12,000 nodes and 14,000 links, and let retrieval walk outward along them.",
+      "I kept three versions running side by side \u2014 no retrieval, one combined store, and the segmented collections \u2014 because the combined store barely moved the score at all. That is what convinced me the problem was how the knowledge was organised, not how much of it we were pulling in.",
     ],
+    period: { label: "PROJECT PERIOD", from: ["2026-05", "MAY 2026"], to: ["2026-08", "AUG 2026"] },
   },
 ];
 
