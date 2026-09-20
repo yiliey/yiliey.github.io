@@ -93,10 +93,10 @@
 .card::after { content:""; position:absolute; top:50%; width:9px; height:9px; transform:translateY(-50%); border:2px solid color-mix(in srgb, var(--beam) 26%, transparent); background:var(--background); border-radius:50%; transition:border-color .35s; right:-5px; }
 .card::after { right:-5px; }
 .card[data-selected="true"] .cardNode { border-color:var(--beam); }
-.card[data-phase="receiving"] .cardNode { animation:portGlow 380ms ease-in-out both; }
+.card[data-phase="receiving"] .cardNode { animation:portGlow 317ms ease-in-out both; }
 .card[data-phase="outgoing"]::after,.card[data-phase="ready"]::after { border-color:var(--beam); box-shadow:0 0 12px color-mix(in srgb, var(--beam) 32%, transparent); }
 .arrivalLight { position:absolute; pointer-events:none; inset:-1px; border-radius:inherit; opacity:0; border:1px solid color-mix(in srgb, var(--beam) 55%, transparent); background:linear-gradient(100deg, color-mix(in srgb, var(--beam) 11%, transparent), transparent 55%, color-mix(in srgb, var(--beam) 4%, transparent)); }
-.card[data-phase="receiving"] .arrivalLight { animation:receiveLight 380ms ease-out both; }
+.card[data-phase="receiving"] .arrivalLight { animation:receiveLight 317ms ease-out both; }
 @keyframes receiveLight { 0% { opacity:0; } 40% { opacity:1; box-shadow:0 0 26px color-mix(in srgb, var(--beam) 22%, transparent), inset 0 0 22px color-mix(in srgb, var(--beam) 6%, transparent); } 100% { opacity:0; } }
 @keyframes portGlow { 0% { box-shadow:0 0 0 0 transparent; } 80% { box-shadow:0 0 0 8px color-mix(in srgb, var(--beam) 12%, transparent); } 100% { box-shadow:0 0 0 12px transparent; } }
 

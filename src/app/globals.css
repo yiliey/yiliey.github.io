@@ -259,6 +259,7 @@ body {
   --modality-image: #52aa80;
   --modality-text: #cb9437;
   --modality-docs: #8093ba;
+  --modality-code: #2f9aa6;
 
   /* Surfaces that sit over the field rather than hiding it. */
   --field-surface: rgba(255, 255, 255, 0.82);
@@ -274,6 +275,7 @@ body {
   --modality-image: #68c096;
   --modality-text: #dcaa55;
   --modality-docs: #9aacd0;
+  --modality-code: #55b7c2;
 
   --field-surface: rgba(35, 38, 72, 0.78);
   --field-surface-soft: rgba(26, 29, 58, 0.62);

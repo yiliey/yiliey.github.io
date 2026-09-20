@@ -4,8 +4,13 @@ import { useEffect, useRef, type CSSProperties } from "react";
 import styles from "./flow.module.css";
 
 export type FlowPhase = "incoming" | "receiving" | "outgoing" | "ready";
-type Props = { colors:string[]; active:number[]; outputs:number[]; phase:FlowPhase; target:number|null; count:number; opened:number|null; onPhase:(index:number, phase:FlowPhase)=>void };
-const INPUT_MS=850, RECEIVE_MS=380, OUTPUT_MS=800;
+type Props = { colors:string[]; outColors:string[]; active:number[]; outputs:number[]; phase:FlowPhase; target:number|null; count:number; opened:number|null; onPhase:(index:number, phase:FlowPhase)=>void };
+// Timings run 1.2x the original pace: the beams used to crawl, and the wait
+// between landing on a card and seeing what it produces was long enough to
+// read as a stall. Divided through by 1.2 rather than retuned by hand, so the
+// three stages keep their relative weight. The idle drift below and the
+// receive flashes in flow.module.css are scaled by the same factor.
+const INPUT_MS=708, RECEIVE_MS=317, OUTPUT_MS=667, IDLE_MS=3500;
 
 export default function FlowConnections(props:Props) {
   const svg=useRef<SVGSVGElement>(null);
@@ -116,13 +121,13 @@ export default function FlowConnections(props:Props) {
         if (selected && enabled && !reduced.matches && state.opened===null) {
           if (item.output) {
             if (phase==="outgoing") { progress=(elapsed-INPUT_MS-RECEIVE_MS)/OUTPUT_MS; alpha=.95; }
-            else if (phase==="ready") { progress=((elapsed-INPUT_MS-RECEIVE_MS-OUTPUT_MS)/4200+item.mode*.13)%1; alpha=Math.sin(progress*Math.PI)*.6; }
+            else if (phase==="ready") { progress=((elapsed-INPUT_MS-RECEIVE_MS-OUTPUT_MS)/IDLE_MS+item.mode*.13)%1; alpha=Math.sin(progress*Math.PI)*.6; }
           } else if (phase==="incoming" && state.target!==null) {
             const delay=state.active.indexOf(item.mode)*60;
             progress=Math.max(0,(elapsed-delay)/(INPUT_MS-delay));
             alpha=elapsed>=delay?.95:0;
           } else if (phase==="ready" || state.target===null) {
-            progress=(elapsed/4200+item.mode*.13)%1; alpha=Math.sin(progress*Math.PI)*.55;
+            progress=(elapsed/IDLE_MS+item.mode*.13)%1; alpha=Math.sin(progress*Math.PI)*.55;
           }
         }
         if (alpha<=0.002) {
@@ -156,7 +161,7 @@ export default function FlowConnections(props:Props) {
   },[]);
 
   return <svg ref={svg} className={styles.links} aria-hidden="true">{Array.from({length:props.count},(_,target)=>
-    (["input","output"] as const).map(direction=>props.colors.map((color,i)=>{
+    (["input","output"] as const).map(direction=>(direction==="output"?props.outColors:props.colors).map((color,i)=>{
       const active=target===(props.target??0) && (direction==="input" ? props.active.includes(i) : props.outputs.includes(i) && (props.phase==="outgoing" || props.phase==="ready"));
       return <g key={target+direction+i} data-flow-link={i} data-target={target} data-direction={direction} data-active={active} className={styles.link} style={{"--tone":color} as CSSProperties}><path d="M0,0 L0,0"/><circle r="2.9"/></g>;
     }))
