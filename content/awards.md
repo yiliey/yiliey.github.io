@@ -1,6 +1,8 @@
 ### Silver Award, 2026 Summer Design Expo
 **Shanghai Jiao Tong University Global College** • 2026
 
+Capstone project: an LLM assistant that generates RAPID code for ABB industrial robots.
+
 ### Roger King Scholarship
 **University of Michigan College of Engineering** • 2025-2026
 

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
-import { AudioLines, Code2, FileText, Github, ImageIcon, Play, Type, X, ArrowUpRight } from "lucide-react";
+import { Award, AudioLines, Code2, FileText, Github, ImageIcon, Play, Type, X, ArrowUpRight } from "lucide-react";
 import StreamingText from "@/components/ui/StreamingText";
 import FlowConnections, { type FlowPhase } from "./FlowConnections";
 import { onFrame } from "@/lib/particleField";
@@ -39,13 +39,14 @@ const projects = [
     ],
     period: { label: "PROJECT PERIOD", from: ["2026-02", "FEB 2026"], to: ["2026-05", "MAY 2026"] },
   },
-  { title: "Robot Code Assistant", repo: "https://github.com/ZAMERT/RAPID-RAG", modes: [3, 4], summary: "Vendor manuals, organised so a model can write robot code that runs.", contribution: "Built the knowledge base and retrieval system: segmented indexing, a cross-reference document graph, and query-to-category routing over the candidate budget.", problem: "Generate runnable RAPID code for ABB industrial robots from a natural-language task, grounded in the official manuals.",
+  { title: "Robot Code Generation", repo: "https://github.com/ZAMERT/RAPID-RAG", modes: [3, 4], summary: "Vendor manuals, organised so a model can write robot code that runs.", contribution: "Built the knowledge base and retrieval system: segmented indexing, a cross-reference document graph, and query-to-category routing over the candidate budget.", problem: "Generate runnable RAPID code for ABB industrial robots from a natural-language task, grounded in the official manuals.",
     details: [
       "Constructed a segmented RAG knowledge base from eight ABB RAPID manuals, sorting every section into definitions (2,654 chunks), syntax (598), and worked examples (843), each embedded with BAAI/bge-m3 in its own collection.",
       "Layered a document graph of 12,000 nodes and 14,000 hyperlink edges over the text index, expanding retrieval along cross-reference edges to recover procedure steps spread across linked manual pages.",
       "Designed query-to-category routing that scores the query against each collection with BM25 and bge-m3, then dynamically allocates the 20 candidate chunks across categories rather than drawing a fixed number from each.",
     ],
     period: { label: "PROJECT PERIOD", from: ["2026-05", "MAY 2026"], to: ["2026-08", "AUG 2026"] },
+    award: "Silver Award, 2026 Summer Design Expo",
   },
 ];
 
@@ -198,7 +199,7 @@ export default function FlowShowcase({ embedded = false }: { embedded?: boolean 
           as="span"
           text="Multimodal systems I have built end to end — what goes in, what comes out, and what I did in between."
           step={34}
-          className="text-lg text-neutral-600 dark:text-neutral-600 max-w-2xl block"
+          className="text-lg text-neutral-700 dark:text-neutral-700 max-w-2xl block"
         />
       </header>
       {projects.map((project, i) => <article data-flow-card={i} data-selected={selected === i} data-phase={selected === i ? phase : "idle"} className={styles.card} key={project.title}>
@@ -227,7 +228,14 @@ export default function FlowShowcase({ embedded = false }: { embedded?: boolean 
             <Github size={12} aria-hidden="true" /> GitHub
           </a>}
           <div className={styles.detailTags}>{projects[opened].modes.map(m => <span key={m} style={{ "--tone": inputModes[m].color } as CSSProperties}>{inputModes[m].name}</span>)}</div>
-          {(() => { const period = projects[opened].period; return period ? <div className={styles.timeline}><label>{period.label}</label><p><time dateTime={period.from[0]}>{period.from[1]}</time><span>—</span><time dateTime={period.to[0]}>{period.to[1]}</time></p></div> : null; })()}
+          {(() => {
+            const { period, award } = projects[opened];
+            if (!period && !award) return null;
+            return <div className={styles.timeline}>
+              {period && <div><label>{period.label}</label><p><time dateTime={period.from[0]}>{period.from[1]}</time><span>—</span><time dateTime={period.to[0]}>{period.to[1]}</time></p></div>}
+              {award && <div><label>RECOGNITION</label><p className={styles.award}><Award size={15} aria-hidden="true" />{award}</p></div>}
+            </div>;
+          })()}
         </div></div>
       </section>
     </div>, document.body)}

@@ -104,9 +104,9 @@
 .cardButton:focus-visible { outline:2px solid var(--beam); outline-offset:5px; }
 .index { color:var(--soft); font:500 .8rem var(--font-mono); padding-top:5px; }
 .cardCopy h2 { margin:0 0 9px; font:600 clamp(1.55rem,2.1vw,2rem)/1.2 var(--font-sans); letter-spacing:-.02em; }
-.cardCopy p { color:var(--neutral-600); font:400 1rem/1.6 var(--font-sans); margin:0 0 16px; }
-.cardCopy strong { display:block; font:600 .65rem var(--font-mono); color:var(--soft); letter-spacing:.12em; margin-bottom:5px; }
-.cardCopy p.contribution { font-size:1rem; color:var(--neutral-600); margin-bottom:14px; }
+.cardCopy p { color:var(--neutral-700); font:400 1rem/1.6 var(--font-sans); margin:0 0 16px; }
+.cardCopy strong { display:block; font:600 .72rem var(--font-mono); color:var(--muted); letter-spacing:.13em; margin-bottom:6px; }
+.cardCopy p.contribution { font-size:1rem; color:var(--neutral-700); margin-bottom:14px; }
 .exploreIcon { color:var(--soft); transition:transform .35s var(--ease); }
 .cardButton:hover .exploreIcon { transform:translate(2px,-2px); }
 .tags,.detailTags { display:flex; flex-wrap:wrap; gap:8px; min-height:24px; }
@@ -144,9 +144,12 @@
 .diagram img { display:block; width:100%; height:auto; object-fit:contain; border-radius:8px; }
 .fullSize { align-self:flex-end; margin-top:12px; text-decoration:none; }
 .detailCopy { padding:28px 32px; border-left:1px solid var(--line); min-height:100%; }
-.detailCopy label { font:600 .68rem var(--font-mono); color:var(--field-soft); letter-spacing:.12em; }
-.detailCopy>p { color:var(--neutral-600); font:400 1rem/1.65 var(--font-sans); margin:9px 0 26px; }
-.timeline { border-top:1px solid var(--line); margin-top:26px; padding-top:20px; }
+.detailCopy label { display:block; font:600 .82rem var(--font-mono); color:var(--field-muted); letter-spacing:.14em; margin-bottom:2px; }
+.detailCopy>p { color:var(--neutral-700); font:400 1rem/1.65 var(--font-sans); margin:9px 0 26px; }
+/* Period and, where there is one, the distinction the project earned: side by
+   side rather than stacked, so the footer stays one line deep. */
+.timeline { border-top:1px solid var(--line); margin-top:26px; padding-top:20px; display:flex; flex-wrap:wrap; gap:clamp(24px,5vw,64px); }
+.award { align-items:center; gap:8px !important; color:var(--foreground); }
 .timeline p { display:flex; gap:14px; color:var(--field-muted); font:600 .8rem var(--font-mono); margin:10px 0 0; }
 
 @keyframes reveal { from { opacity:0; transform:translateY(14px) scale(.975); } to { opacity:1; transform:none; } }
@@ -194,7 +197,7 @@
 
 /* Project detail bullet list. */
 .details { margin:9px 0 26px; padding:0; list-style:none; display:grid; gap:10px; }
-.details li { position:relative; padding-left:16px; color:var(--neutral-600); font:400 1rem/1.65 var(--font-sans); }
+.details li { position:relative; padding-left:16px; color:var(--neutral-700); font:400 1rem/1.65 var(--font-sans); }
 .details li::before { content:""; position:absolute; left:0; top:.62em; width:5px; height:5px; border-radius:50%; background:var(--beam); }
 
 /* A project with no diagram gives its copy the full width of the dialog. */
